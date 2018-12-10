@@ -1,0 +1,67 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background: url(../imgs/old_moon.png);
+}
+
+.titulo_padrao {
+    margin-top: 10px;
+}
+
+.home {
+    margin-top: 15px;
+}
+
+.panel {
+    margin-bottom: 10px;
+}
+
+.conteudo_painel {
+    background: white;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    box-shadow: 2px 2px 5px #888;
+    min-height: 500px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.container_home {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+
+.conteudo_footer {
+    background: white;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    box-shadow: 2px 2px 5px #888;
+    min-height: 50px;
+    height: auto;
+}
+
+    .conteudo_footer p {
+        margin-top: 12px;
+    }
+
+.sem_padding_right {
+    padding-right: 0px !important;
+}
+
+.conteudo_painel_int {
+    padding: 12px;
+}
+
+.margin_bottom_default_row {
+    margin-bottom: 20px;
+}
+
+.form-login {
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    border-radius: 10px;
+    background: #eee;
+    margin-top: 30px;
+}

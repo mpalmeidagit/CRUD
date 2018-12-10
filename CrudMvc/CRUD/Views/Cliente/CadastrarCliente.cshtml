@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "Cadastrar Cliente";
+}
+<div class="container home conteudo_painel">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Cadastrar cliente
+            </div>
+            <div class="panel-body form-inline">
+                <div class="row margin_bottom_default_row">
+                    <div class="form-group col-md-6">
+                        @Html.Label("txtNome", "Nome", new { Class = "control-label" })
+                        @Html.TextBox("txtNome", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        @Html.Label("txtEmail", "E-mail", new { Class = "control-label" })
+                        @Html.TextBox("txtEmail", null, new { Class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="row margin_bottom_default_row">
+                    <div class="form-group col-md-4">
+                        @Html.Label("txtCPF", "CPF", new { Class = "control-label" })
+                        @Html.TextBox("txtCPF", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.Label("txtTelefone", "Telefone", new { Class = "control-label" })
+                        @Html.TextBox("txtTelefone", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-2">
+                        @Html.Label("txtCEP", "CEP", new { Class = "control-label" })
+                        @Html.TextBox("txtCEP", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-2">
+                        @Html.Label("txtEstado", "Estado", new { Class = "control-label" })
+                        @Html.TextBox("txtEstado", null, new { Class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="row margin_bottom_default_row">
+                    <div class="form-group col-md-4">
+                        @Html.Label("txtCidade", "Cidade", new { Class = "control-label" })
+                        @Html.TextBox("txtCidade", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.Label("txtBairro", "Bairro", new { Class = "control-label" })
+                        @Html.TextBox("txtBairro", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.Label("txtEndereco", "Endereço", new { Class = "control-label" })
+                        @Html.TextBox("txtEndereco", null, new { Class = "form-control" })
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel-footer">
+                <a id="btn_incluir" class="btn btn-success" role="button"><i class="glyphicon glyphicon-ok-sign"></i> Salvar</a>
+                <a id="btn_cancelar" class="btn btn-danger" role="button"><i class="glyphicon glyphicon-remove-sign"></i> Cancelar</a>
+            </div>
+        </div>
+
+    </div>
+    </div>  
+
+
+    @section Scripts{
+
+        <script type="text/javascript">
+
+        var url_cadastrar = '@Url.Action("CadastrarCliente", "Cliente")';
+
+        </script>
+
+        <script src="~/Scripts/Cadastro/cliente.js"></script>
+
+    }
+
