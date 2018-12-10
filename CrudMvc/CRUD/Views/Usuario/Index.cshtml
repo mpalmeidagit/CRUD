@@ -1,7 +1,7 @@
 ﻿@model List<CRUD.Models.UsuarioModel>
 
 @{
-    ViewBag.Title = "Cadastrar Usuario";
+    ViewBag.Title = "Cadastrar Usuário";
 
 }
 <style>
@@ -24,52 +24,248 @@
     #tbl_usuarios > thead > tr > th:nth-child(5) {
         text-align: center;
     }
+
+    .btn_incluir {
+        padding: 0px 0px 0px 0px;
+        margin-top: 15px;
+        margin-bottom: 40px;
+    }
+
+    .modal-dialog {
+        width: 50%;
+    }
+
+    .margem_bottom_default {
+        margin-bottom: 20px;
+    }
+
+    div.dataTables_length select {
+        width: 100px;
+        border-radius: 3px;
+        padding: 4px;
+    }
+
+    div.dataTables_filter input {
+        width: 16em;
+        border-radius: 3px;
+        padding: 4px;
+        border: 1px solid #808080;
+    }
+
+    .form-horizontal .form-group {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+    
 </style>
 <div class="container home conteudo_painel">
     <div class="panel panel-primary titulo_padrao">
         <div class="panel-heading">
             @ViewBag.Title
         </div>
-        <div class="panel-body table-responsive">
-            <table id="tbl_usuarios" class="table table-bordered table-hover">
-                <thead>
-                    <tr class="active">
-                        <th>Login</th>
-                        <th>Senha</th>
-                        <th>Nome</th>
-                        <th>Email</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.Login</td>
-                            <td>@item.Senha</td>
-                            <td>@item.Nome</td>
-                            <td>@item.Email</td>
-                            <td>
-                                <a class="btn btn-primary btn-alterar" role="button"><i class="glyphicon glyphicon-pencil"></i> Alterar</a>
-                                <a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i> Excluir</a>
-                            </td>
+        <div class="col-md-12 btn_incluir">
+            <div class="col-md-3">
+                <a id="btn_incluir" role="button" class="btn btn-success btn-lg btn-block"><span class="glyphicon glyphicon-ok"></span> Incluir Novo Usuário</a>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="tbl_usuarios" class="table table-bordered">
+                    <thead>
+                        <tr class="active">
+                            <th>Código</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Login</th>
+                            <th>Senha</th>                            
+                            <th>Ação</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr data-id="@item.Id">
+                                <td>@item.Id</td>
+                                <td>@item.Nome</td>
+                                <td>@item.Email</td>  
+                                <td>@item.Login</td>
+                                <td>@item.Senha</td>                                                             
+                                <td class="text-center">
+                                    <a class="btn btn-primary btn-alterar" role="button"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                    <a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i> </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-3">
 
-            <a id="btn_incluir" role="button" class="btn btn-success btn-lg btn-block"><span class="glyphicon glyphicon-ok"></span> Incluir Novo Usuário</a>
-        </div>
-
-    </div>
 </div>
+
+<div id="modal_cadastro" class="form-horizontal invisivel" role="dialog">
+
+    <fieldset>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("txt_nome", "Nome", new { @class = "control-label" })
+                @Html.TextBox("txt_nome", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("txt_email", "Email", new { @class = "control-label" })
+                @Html.TextBox("txt_email", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("txt_login", "Login", new { @class = "control-label" })
+                @Html.TextBox("txt_login", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("txt_senha", "Senha", new { @class = "control-label" })
+                @Html.TextBox("txt_senha", null, new { @class = "form-control" })
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="modal-footer">
+                    <a id="btn_sair" class="btn btn-default" role="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Sair</a>
+                    <a id="btn_confirmar" class="btn btn-primary" role="button"><i class="glyphicon glyphicon-ok"></i> Salvar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 @section Scripts{
 
     <script type="text/javascript">
+        var url_cadastrar = '@Url.Action("CadastrarUsuario", "Usuario")';
+
+        function abrir_form(dados) {
+            $('#id_cadastro').val(dados.Id);
+            $('#txt_nome').val(dados.Nome);
+            $('#txt_email').val(dados.Email);
+            $('#txt_login').val(dados.Login);
+            $('#txt_senha').val(dados.Senha);            
+            var modal_cadastro = $('#modal_cadastro');
+            bootbox.dialog({
+                title: '@ViewBag.Title',
+                message: modal_cadastro
+            })
+            .on('shown.bs.modal', function () {
+                modal_cadastro.show(0, function () {
+                    $('#txt_nome').focus();
+                });
+            })
+            .on('hidden.bs.modal', function () {
+                modal_cadastro.hide().appendTo('body');
+            });
+        }
+
+
+        function criar_linha_grid(dados) {
+            var retorno =
+                '<tr data-id=' + dados.Id + '>' +
+                '<td>' + dados.Nome + '</td>' +
+                '<td>' + dados.Email + '</td>' +
+                '<td>' + dados.Login + '</td>' +
+                '<td>' + dados.Senha + '</td>' +             
+                '<td>' +
+                '<a class="btn btn-primary btn-alterar" role="button" style="margin-right: 3px"><i class="glyphicon glyphicon-pencil"></i> </a>' +
+                '<a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i></a>' +
+                '</td>' +
+                '</tr>';
+            return retorno;
+
+        }
+
+        $(document).on('click', '#btn_incluir', function () {
+            abrir_form({ Id: 0, Login: '', Senha: '', Nome: '', Email: '' });
+        })
+        .on('click', '.btn-alterar', function () {
+            var btn = $(this),
+                id = btn.closest('tr').attr('data-id'),
+                url = '@Url.Action("RecuperarUsuario", "Usuario")',
+                param = { 'id': id };
+            $.post(url, param, function (response) {
+                if (response) {
+                    abrir_form(response);
+                }
+            });
+        })
+
+         .on('click', '.btn-excluir', function () {
+             var btn = $(this),
+                 tr = btn.closest('tr'),
+                 id = tr.attr('data-id'),
+                 url = '@Url.Action("ExcluirUsuario", "Usuario")',
+                 param = { 'id': id };
+             bootbox.confirm({
+                 message: "Realmente deseja excluir o usuário?",
+                 buttons: {
+                     confirm: {
+                         label: 'Sim',
+                         className: 'btn-success'
+                     },
+                     cancel: {
+                         label: 'Não',
+                         className: 'btn-danger'
+                     }
+                 },
+                 callback: function (result) {
+                     if (result) {
+                         $.post(url, param, function (response) {
+                             if (response) {
+                                 tr.remove();
+                             }
+                         });
+                     }
+                 }
+             });
+         })
+        .on('click', '#btn_confirmar', function () {
+            var btn = $(this),
+                url = '@Url.Action("CadastrarUsuario", "Usuario")',
+                param = {
+                    Id: $('#id_cadastro').val(),
+                    Nome: $('#txt_nome').val(),
+                    Email: $('#txt_email').val(),
+                    Login: $('#txt_login').val(),
+                    Senha: $('#txt_senha').val()                    
+                };
+            $.post(url, param, function (response) {
+                if (response) {
+                    if (param.Id == 0) {
+                        var table = $('#grid_cadastro').find('tbody'),
+                            linha = criar_linha_grid(response);
+                        table.append(linha);
+                    }
+                    else {
+                        var linha = $('#grid_cadastro').find('tr[data-id=' + param.Id + ']').find('td');
+                        linha
+                            .eq(0).html(param.Nome).end()
+                            .eq(1).html(param.Email).end()
+                            .eq(2).html(paraml.Login).end()
+                            .eq(3).html(param.Senha).end()
+                    }
+                    $('#modal_cadastro').parents('.bootbox').modal('hide');
+                }
+            });
+        });
+
 
     </script>
 

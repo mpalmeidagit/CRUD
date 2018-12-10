@@ -13,18 +13,20 @@ namespace CRUD.Controllers
         private const string _senhaDefault = "{$127;$188}";
         private static List<UsuarioModel> _listaUsuario = new List<UsuarioModel>()
         {
-            new UsuarioModel() {Id=1, Login="marivaldo",Senha="123",Nome="Marivaldo almeida",Email="marivaldo@yahoo.com.br" },
-            new UsuarioModel() {Id=2, Login="marivaldo",Senha="123",Nome="Marivaldo almeida",Email="marivaldo@yahoo.com.br" },
-            new UsuarioModel() {Id=3, Login="marivaldo",Senha="123",Nome="Marivaldo almeida",Email="marivaldo@yahoo.com.br" },
-            new UsuarioModel() {Id=4, Login="marivaldo",Senha="123",Nome="Marivaldo almeida",Email="marivaldo@yahoo.com.br" },
-            new UsuarioModel() {Id=5, Login="marivaldo",Senha="123",Nome="Marivaldo almeida",Email="marivaldo@yahoo.com.br" }
+            new UsuarioModel() {Id=1,Login="marivaldo",Senha="123",Nome="Marivaldo almeida",Email="marivaldo@yahoo.com.br" },
+            new UsuarioModel() {Id=1,Login="jamily",Senha="123",Nome="Jamily Almeida",Email="marivaldo@yahoo.com.br" },
+            new UsuarioModel() {Id=1,Login="marcos",Senha="123",Nome="Marcos Silva",Email="marivaldo@yahoo.com.br" },
+            new UsuarioModel() {Id=1,Login="rafael",Senha="123",Nome="Rafael Almeida",Email="marivaldo@yahoo.com.br" },           
+            new UsuarioModel() {Id=1,Login="joaovitor",Senha="123",Nome="João Vitor Almeida",Email="marivaldo@yahoo.com.br" },
+            new UsuarioModel() {Id=1,Login="raquel",Senha="123",Nome="Raquel Ramos",Email="marivaldo@yahoo.com.br" },           
+            new UsuarioModel() {Id=1,Login="lucio",Senha="123",Nome="Lucio brito",Email="marivaldo@yahoo.com.br" },          
         };
 
         public ActionResult Index()
         {
             return View(_listaUsuario);
         }
-                
+     
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]

@@ -38,3 +38,43 @@ C:\Users\almei\OneDrive\Área de Trabalho\CrudMvc\CRUD\bin\Newtonsoft.Json.xml
 C:\Users\almei\OneDrive\Área de Trabalho\CrudMvc\CRUD\obj\Debug\CRUD.dll
 C:\Users\almei\OneDrive\Área de Trabalho\CrudMvc\CRUD\obj\Debug\CRUD.pdb
 C:\Users\almei\OneDrive\Área de Trabalho\CrudMvc\CRUD\obj\Debug\CRUD.csprojResolveAssemblyReference.cache
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\csc.exe
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\vbc.exe
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\VBCSCompiler.exe
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\CRUD.dll.config
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\CRUD.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\CRUD.pdb
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\Antlr3.Runtime.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\Newtonsoft.Json.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.Helpers.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.Mvc.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.Optimization.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.Razor.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.WebPages.Deployment.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.WebPages.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.WebPages.Razor.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\WebGrease.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.Helpers.xml
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.Mvc.xml
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.Optimization.xml
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.Razor.xml
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.WebPages.xml
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.WebPages.Deployment.xml
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.WebPages.Razor.xml
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\Antlr3.Runtime.pdb
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\Newtonsoft.Json.xml
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.csprojResolveAssemblyReference.cache
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.dll
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.pdb
