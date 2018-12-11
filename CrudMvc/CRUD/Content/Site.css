@@ -30,7 +30,9 @@
     padding-right: 0px !important;
     padding-left: 0px !important;
 }
-
+.invisivel{
+    display:none;
+}
 .conteudo_footer {
     background: white;
     border-radius: 5px;

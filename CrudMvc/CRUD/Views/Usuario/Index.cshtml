@@ -73,8 +73,8 @@
             <div class="table-responsive">
                 <table id="tbl_usuarios" class="table table-bordered">
                     <thead>
-                        <tr class="active">
-                            <th>Código</th>
+                        <tr class="active">   
+                            <th>ID</th>                        
                             <th>Nome</th>
                             <th>Email</th>
                             <th>Login</th>
@@ -85,8 +85,8 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr data-id="@item.Id">
-                                <td>@item.Id</td>
+                            <tr data-id="@item.Id"> 
+                                <td>@item.Id</td>                              
                                 <td>@item.Nome</td>
                                 <td>@item.Email</td>  
                                 <td>@item.Login</td>
@@ -105,6 +105,7 @@
 
 </div>
 
+@Html.Hidden("id_cadastro");
 <div id="modal_cadastro" class="form-horizontal invisivel" role="dialog">
 
     <fieldset>
@@ -152,7 +153,7 @@
 @section Scripts{
 
     <script type="text/javascript">
-        var url_cadastrar = '@Url.Action("CadastrarUsuario", "Usuario")';
+        //var url_cadastrar = '@Url.Action("CadastrarUsuario", "Usuario")';
 
         function abrir_form(dados) {
             $('#id_cadastro').val(dados.Id);
@@ -238,7 +239,7 @@
          })
         .on('click', '#btn_confirmar', function () {
             var btn = $(this),
-                url = '@Url.Action("CadastrarUsuario", "Usuario")',
+                url = '@Url.Action("SalvarUsuario", "Usuario")',
                 param = {
                     Id: $('#id_cadastro').val(),
                     Nome: $('#txt_nome').val(),
@@ -249,23 +250,38 @@
             $.post(url, param, function (response) {
                 if (response) {
                     if (param.Id == 0) {
-                        var table = $('#grid_cadastro').find('tbody'),
+                        var table = $('#tbl_usuarios').find('tbody'),
                             linha = criar_linha_grid(response);
                         table.append(linha);
                     }
                     else {
-                        var linha = $('#grid_cadastro').find('tr[data-id=' + param.Id + ']').find('td');
+                        var linha = $('#tbl_usuarios').find('tr[data-id=' + param.Id + ']').find('td');
                         linha
                             .eq(0).html(param.Nome).end()
                             .eq(1).html(param.Email).end()
-                            .eq(2).html(paraml.Login).end()
+                            .eq(2).html(param.Login).end()
                             .eq(3).html(param.Senha).end()
                     }
                     $('#modal_cadastro').parents('.bootbox').modal('hide');
                 }
             });
         });
-
+        // Inicia o datatable
+        $(document).ready(function () {
+            tabela = $("#tbl_usuarios").DataTable({
+                "aaSorting": [[0, 'desc']],
+                "bSort": true,
+                "aoColumns": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    { "bSortable": false }
+                ]
+            });
+            tabela.fnSetColumnVis(0, false);
+        });
 
     </script>
 

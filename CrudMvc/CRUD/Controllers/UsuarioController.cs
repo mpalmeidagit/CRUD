@@ -36,6 +36,50 @@ namespace CRUD.Controllers
         }
 
         [HttpPost]
+        [Authorize]     
+        public ActionResult RecuperarUsuario(int id)
+        {
+            return Json(_listaUsuario.Find(x => x.Id == id));
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult SalvarUsuario(UsuarioModel model)
+        {
+            var registroBD = _listaUsuario.Find(x => x.Id == model.Id);
+            if (registroBD == null)
+            {
+                registroBD = model;
+                registroBD.Id = _listaUsuario.Max(x => x.Id) + 1;
+                _listaUsuario.Add(registroBD);
+            }
+            else
+            {
+                registroBD.Nome = model.Nome;
+                registroBD.Email = model.Email;
+                registroBD.Login = model.Login;
+                registroBD.Senha = model.Senha;
+            }
+
+            return Json(registroBD);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult ExcluirUsuario(int id)
+        {
+            var retorno = false;
+            var registroBD = _listaUsuario.Find(x => x.Id == id);
+            if (registroBD != null)
+            {
+                _listaUsuario.Remove(registroBD);
+                retorno = true;
+            }
+            return Json(retorno);
+        }
+        
+
+        [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult CadastrarUsuario(UsuarioModel model)
