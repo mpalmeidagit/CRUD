@@ -24,65 +24,55 @@ namespace CRUD.Controllers
 
         public ActionResult Index()
         {
-            return View(_listaUsuario);
+            return View(UsuarioModel.RecuperarUsuario());
         }
      
         [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
+        [Authorize]   
         public ActionResult RecuperarPorId(int id)
         {
             return Json(UsuarioModel.RecuperarPeloId(id));
         }
 
-        [HttpPost]
-        [Authorize]     
-        public ActionResult RecuperarUsuario(int id)
-        {
-            return Json(_listaUsuario.Find(x => x.Id == id));
-        }
+        //[HttpPost]
+        //[Authorize]     
+        //public ActionResult RecuperarUsuario(int id)
+        //{
+        //    return Json(_listaUsuario.Find(x => x.Id == id));
+        //}
 
-        [HttpPost]
-        [Authorize]
-        public ActionResult SalvarUsuario(UsuarioModel model)
-        {
-            var registroBD = _listaUsuario.Find(x => x.Id == model.Id);
-            if (registroBD == null)
-            {
-                registroBD = model;
-                registroBD.Id = _listaUsuario.Max(x => x.Id) + 1;
-                _listaUsuario.Add(registroBD);
-            }
-            else
-            {
-                registroBD.Nome = model.Nome;
-                registroBD.Email = model.Email;
-                registroBD.Login = model.Login;
-                registroBD.Senha = model.Senha;
-            }
+        //[HttpPost]
+        //[Authorize]
+        //public ActionResult SalvarUsuario(UsuarioModel model)
+        //{
+        //    var registroBD = _listaUsuario.Find(x => x.Id == model.Id);
+        //    if (registroBD == null)
+        //    {
+        //        registroBD = model;
+        //        registroBD.Id = _listaUsuario.Max(x => x.Id) + 1;
+        //        _listaUsuario.Add(registroBD);
+        //    }
+        //    else
+        //    {
+        //        registroBD.Nome = model.Nome;
+        //        registroBD.Email = model.Email;
+        //        registroBD.Login = model.Login;
+        //        registroBD.Senha = model.Senha;
+        //    }
 
-            return Json(registroBD);
-        }
+        //    return Json(registroBD);
+        //}
 
         [HttpPost]
         [Authorize]
         public ActionResult ExcluirUsuario(int id)
         {
-            var retorno = false;
-            var registroBD = _listaUsuario.Find(x => x.Id == id);
-            if (registroBD != null)
-            {
-                _listaUsuario.Remove(registroBD);
-                retorno = true;
-            }
-            return Json(retorno);
+            return Json(UsuarioModel.ExcluirUsuario(id));
         }
         
-
         [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult CadastrarUsuario(UsuarioModel model)
+        [Authorize]       
+        public ActionResult SalvarUsuario(UsuarioModel model)
         {
             var resultado = "SUCESSO";
             var mensagens = new List<string>();
@@ -101,8 +91,8 @@ namespace CRUD.Controllers
                     {
                         model.Senha = "";
                     }
-                    var id = model.CadastrarUsuario();
-                    if (id == true)
+                    var id = model.SalvarUsuario();
+                    if (id > 0)
                     {
                         idSalvo = id.ToString();
                     }

@@ -21,8 +21,9 @@
         width: 23%;
     }
 
-    #tbl_usuarios > thead > tr > th:nth-child(5) {
+    #tbl_usuarios > thead > tr > th:nth-child(6) {
         text-align: center;
+         width: 23%;
     }
 
     .btn_incluir {
@@ -56,10 +57,10 @@
         margin-right: 0px;
         margin-left: 0px;
     }
-    .btn_center{
-        text-align:center;
+
+    .btn_center {
+        text-align: center;
     }
-    
 </style>
 <div class="container home conteudo_painel">
     <div class="panel panel-primary titulo_padrao">
@@ -76,24 +77,24 @@
             <div class="table-responsive">
                 <table id="tbl_usuarios" class="table table-bordered">
                     <thead>
-                        <tr class="active">   
-                            <th>ID</th>                        
+                        <tr class="active">
+                            <th>ID</th>
                             <th>Nome</th>
                             <th>Email</th>
                             <th>Login</th>
-                            <th>Senha</th>                            
-                            <th>Ação</th>
+                            <th>Senha</th>
+                            <th class="text-center">Ação</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr data-id="@item.Id"> 
-                                <td>@item.Id</td>                              
+                            <tr data-id="@item.Id">
+                                <td></td>
                                 <td>@item.Nome</td>
-                                <td>@item.Email</td>  
+                                <td>@item.Email</td>
                                 <td>@item.Login</td>
-                                <td>@item.Senha</td>                                                             
+                                <td>@item.Senha</td>
                                 <td class="text-center">
                                     <a class="btn btn-primary btn-alterar" role="button"><i class="glyphicon glyphicon-pencil"></i> </a>
                                     <a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i> </a>
@@ -135,7 +136,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 @Html.Label("txt_senha", "Senha", new { @class = "control-label" })
-                @Html.TextBox("txt_senha", null, new { @class = "form-control" })
+                @Html.Password("txt_senha", null, new { @class = "form-control" })
             </div>
         </div>
     </fieldset>
@@ -158,13 +159,17 @@
     <script type="text/javascript">
         //var url_cadastrar = '@Url.Action("CadastrarUsuario", "Usuario")';
 
+        var tabela;
+
         function abrir_form(dados) {
             $('#id_cadastro').val(dados.Id);
             $('#txt_nome').val(dados.Nome);
             $('#txt_email').val(dados.Email);
             $('#txt_login').val(dados.Login);
-            $('#txt_senha').val(dados.Senha);            
+            $('#txt_senha').val(dados.Senha);
+
             var modal_cadastro = $('#modal_cadastro');
+
             bootbox.dialog({
                 title: '@ViewBag.Title',
                 message: modal_cadastro
@@ -183,31 +188,37 @@
         function criar_linha_grid(dados) {
             var retorno =
                 '<tr data-id=' + dados.Id + '>' +
+                '<td>' + dados.Id + '</td>' +
                 '<td>' + dados.Nome + '</td>' +
                 '<td>' + dados.Email + '</td>' +
                 '<td>' + dados.Login + '</td>' +
-                '<td>' + dados.Senha + '</td>' +             
+                //'<td>' + dados.Senha + '</td>' +
                 '<td class="text-center">' +
                 '<a class="btn btn-primary btn-alterar" role="button" style="margin-right: 3px"><i class="glyphicon glyphicon-pencil"></i> </a>' +
                 '<a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i></a>' +
                 '</td>' +
                 '</tr>';
-            return retorno;
+            return retorno;            
 
         }
+             
 
         $(document).on('click', '#btn_incluir', function () {
-            abrir_form({ Id: 0, Login: '', Senha: '', Nome: '', Email: '' });
+            $('#txt_senha').attr('readonly', false);
+            abrir_form({ Id: 0, Nome: '', Email: '', Login: '', Senha: '' });
         })
         .on('click', '.btn-alterar', function () {
+            $('#txt_senha').attr('readonly', true);
             var btn = $(this),
-                id = btn.closest('tr').attr('data-id'),
-                url = '@Url.Action("RecuperarUsuario", "Usuario")',
-                param = { 'id': id };
-            $.post(url, param, function (response) {
+                 id = btn.closest('tr').attr('data-id'),
+                 url = '@Url.Action("RecuperarPorId", "Usuario")',
+                 param = { 'id': id };
+            $.post(url, param, function (response) {               
                 if (response) {
                     abrir_form(response);
+                     //set_focus_form();
                 }
+                
             });
         })
 
@@ -242,30 +253,43 @@
          })
         .on('click', '#btn_confirmar', function () {
             var btn = $(this),
-                url = '@Url.Action("SalvarUsuario", "Usuario")',
+                 url = '@Url.Action("SalvarUsuario", "Usuario")',
                 param = {
                     Id: $('#id_cadastro').val(),
                     Nome: $('#txt_nome').val(),
                     Email: $('#txt_email').val(),
                     Login: $('#txt_login').val(),
-                    Senha: $('#txt_senha').val()                    
+                    Senha: $('#txt_senha').val()
                 };
             $.post(url, param, function (response) {
-                if (response) {
+                if (response.Resultado == "SUCESSO") {
                     if (param.Id == 0) {
+                        param.Id = response.IdSalvo;
                         var table = $('#tbl_usuarios').find('tbody'),
-                            linha = criar_linha_grid(response);
+                            linha = criar_linha_grid(param);
                         table.append(linha);
                     }
                     else {
                         var linha = $('#tbl_usuarios').find('tr[data-id=' + param.Id + ']').find('td');
                         linha
-                            .eq(0).html(param.Nome).end()
-                            .eq(1).html(param.Email).end()
-                            .eq(2).html(param.Login).end()
-                            .eq(3).html(param.Senha).end()
+                            .eq(0).html(param.Id).end()
+                            .eq(1).html(param.Nome).end()
+                            .eq(2).html(param.Email).end()
+                            .eq(3).html(param.Login).end()
+                            //.eq(3).html(param.Senha).end()
                     }
                     $('#modal_cadastro').parents('.bootbox').modal('hide');
+                }
+                else if (response.Resultado == "ERRO") {
+                    $('#msg_aviso').hide();
+                    $('#msg_mensagem_aviso').hide();
+                    $('#msg_erro').show();
+                }
+                else if (response.Resultado == "SUCESSO") {
+                    $('#msg_mensagem_aviso').html(formatar_mensagem_aviso(response.Mensagens));
+                    $('#msg_aviso').show();
+                    $('#msg_mensagem_aviso').show();
+                    $('#msg_erro').hide();
                 }
             });
         });
@@ -283,8 +307,10 @@
                     { "bSortable": false }
                 ]
             });
-            tabela.fnSetColumnVis(0, false);
+            tabela.fnSetColumnVis(0, true);
+            tabela.fnSetColumnVis(4, false);           
         });
+
 
     </script>
 

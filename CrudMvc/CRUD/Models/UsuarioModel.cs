@@ -12,19 +12,19 @@ namespace CRUD.Models
     public class UsuarioModel
     {
         #region Atributos   
-             
+
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="Informe login")]
+        [Required(ErrorMessage = "Informe login")]
         public string Login { get; set; }
 
-        [Required(ErrorMessage ="Informe senha")]
+        [Required(ErrorMessage = "Informe senha")]
         public string Senha { get; set; }
 
-        [Required(ErrorMessage ="Informe nome")]
+        [Required(ErrorMessage = "Informe nome")]
         public string Nome { get; set; }
 
-        [Required(ErrorMessage ="Informe email")]
+        [Required(ErrorMessage = "Informe email")]
         public string Email { get; set; }
         #endregion
 
@@ -39,7 +39,7 @@ namespace CRUD.Models
             {
                 conexao = Conexao.getInstancia().ConexaoBD();
                 cmd = new SqlCommand("STP_VALIDAR_USUARIO", conexao);
-                cmd.Parameters.AddWithValue("@prmLogin",SqlDbType.VarChar).Value = login;
+                cmd.Parameters.AddWithValue("@prmLogin", SqlDbType.VarChar).Value = login;
                 cmd.Parameters.AddWithValue("@prmSenha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(senha);
                 cmd.CommandType = CommandType.StoredProcedure;
                 conexao.Open();
@@ -56,6 +56,44 @@ namespace CRUD.Models
                         Email = (string)reader["email"]
                     };
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conexao.Close();
+            }
+
+            return resposta;
+        }
+
+        public static List<UsuarioModel> RecuperarUsuario()
+        {
+            SqlConnection conexao = null;
+            SqlCommand cmd = null;
+            var resposta = new List<UsuarioModel>();
+            SqlDataReader reader = null;
+
+            try
+            {
+                conexao = Conexao.getInstancia().ConexaoBD();
+                cmd = new SqlCommand("STP_RECUPERAR_USUARIO", conexao);
+                cmd.CommandType = CommandType.StoredProcedure;
+                conexao.Open();
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    resposta.Add(new UsuarioModel {
+                        Id = (int)reader["id"],
+                        Nome = (string)reader["nome"],
+                        Email = (string)reader["email"],
+                        Login = (string)reader["login"],
+                        Senha  = (string)reader["senha"]
+                    });
+                }
+
             }
             catch (Exception ex)
             {
@@ -108,7 +146,7 @@ namespace CRUD.Models
 
             return resposta;
         }
-
+        
         public bool CadastrarUsuario()
         {
             SqlConnection conexao = null;
@@ -123,10 +161,10 @@ namespace CRUD.Models
                 {
                     conexao = Conexao.getInstancia().ConexaoBD();
                     cmd = new SqlCommand("STP_CADASTRAR_USUARIO", conexao);
-                    cmd.Parameters.AddWithValue("@prmLogin", SqlDbType.VarChar).Value = this.Nome;
-                    cmd.Parameters.AddWithValue("@prmSenha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(this.Senha);
                     cmd.Parameters.AddWithValue("@prmNome", SqlDbType.VarChar).Value = this.Nome;
                     cmd.Parameters.AddWithValue("@prmEmail", SqlDbType.VarChar).Value = this.Email;
+                    cmd.Parameters.AddWithValue("@prmLogin", SqlDbType.VarChar).Value = this.Login;
+                    cmd.Parameters.AddWithValue("@prmSenha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(this.Senha);                    
                     cmd.CommandType = CommandType.StoredProcedure;
                     conexao.Open();
 
@@ -147,6 +185,92 @@ namespace CRUD.Models
                 conexao.Close();
             }
 
+            return resposta;
+        }
+
+        public int SalvarUsuario()
+        {
+            SqlConnection conexao = null;
+            SqlCommand cmd = null;
+            var retorno = 0;
+
+            var model = RecuperarPeloId(this.Id);
+
+            try
+            {
+                if (model == null)
+                {
+                    conexao = Conexao.getInstancia().ConexaoBD();
+                    cmd = new SqlCommand("STP_CADASTRAR_USUARIO", conexao);
+                    cmd.Parameters.AddWithValue("@prmNome", SqlDbType.VarChar).Value = this.Nome;
+                    cmd.Parameters.AddWithValue("@prmEmail", SqlDbType.VarChar).Value = this.Email;
+                    cmd.Parameters.AddWithValue("@prmLogin", SqlDbType.VarChar).Value = this.Login;
+                    cmd.Parameters.AddWithValue("@prmSenha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(this.Senha);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    conexao.Open();
+
+                    retorno = (int)cmd.ExecuteNonQuery();
+                }
+                else
+                {
+                    conexao = Conexao.getInstancia().ConexaoBD();
+                    cmd = new SqlCommand("STP_ALTERAR_USUARIO", conexao);
+                    cmd.Parameters.AddWithValue("@prmId", SqlDbType.Int).Value = this.Id;
+                    cmd.Parameters.AddWithValue("@prmNome", SqlDbType.VarChar).Value = this.Nome;
+                    cmd.Parameters.AddWithValue("@prmEmail", SqlDbType.VarChar).Value = this.Email;
+                    cmd.Parameters.AddWithValue("@prmLogin", SqlDbType.VarChar).Value = this.Login;                  
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    conexao.Open();
+
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        retorno = this.Id;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conexao.Close();
+            }
+
+            return retorno;
+        }
+
+        public static bool ExcluirUsuario(int id)
+        {
+            SqlConnection conexao = null;
+            SqlCommand cmd = null;
+            bool resposta = false;
+
+            if (RecuperarPeloId(id) != null)
+            {
+                try
+                {
+                    conexao = Conexao.getInstancia().ConexaoBD();
+                    cmd = new SqlCommand("STP_REMOVER_USUARIO", conexao);
+                    cmd.Parameters.AddWithValue("@prmId", SqlDbType.Int).Value = id;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    conexao.Open();
+                    cmd.ExecuteNonQuery();
+
+                    resposta = true;
+                }
+                catch (Exception ex)
+                {
+                    resposta = false;
+                    throw ex;
+                }
+                finally
+                {
+                    conexao.Close();
+                }
+               
+            }
             return resposta;
         }
 
