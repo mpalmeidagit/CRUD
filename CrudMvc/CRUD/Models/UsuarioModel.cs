@@ -15,17 +15,18 @@ namespace CRUD.Models
 
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Informe login")]
-        public string Login { get; set; }
-
-        [Required(ErrorMessage = "Informe senha")]
-        public string Senha { get; set; }
-
-        [Required(ErrorMessage = "Informe nome")]
+        [Required(ErrorMessage = "Campo nome é obrigatório!")]
         public string Nome { get; set; }
 
-        [Required(ErrorMessage = "Informe email")]
+        [Required(ErrorMessage = "Campo email é obrigatório!")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Campo login é obrigatório!")]
+        public string Login { get; set; }
+
+        [Required(ErrorMessage = "Campo senha é obrigatório!")]
+        public string Senha { get; set; }
+       
         #endregion
 
         public static UsuarioModel ValidarUsuario(string login, string senha)
@@ -209,7 +210,8 @@ namespace CRUD.Models
                     cmd.CommandType = CommandType.StoredProcedure;
                     conexao.Open();
 
-                    retorno = (int)cmd.ExecuteNonQuery();
+                    cmd.ExecuteScalar();
+
                 }
                 else
                 {

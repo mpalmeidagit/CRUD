@@ -90,7 +90,7 @@
                         @foreach (var item in Model)
                         {
                             <tr data-id="@item.Id">
-                                <td></td>
+                                <td>@item.Id</td>
                                 <td>@item.Nome</td>
                                 <td>@item.Email</td>
                                 <td>@item.Login</td>
@@ -111,6 +111,8 @@
 
 @Html.Hidden("id_cadastro");
 <div id="modal_cadastro" class="form-horizontal invisivel" role="dialog">
+
+    <div id="msg_mensagem_aviso" class="text-danger invisivel"></div>
 
     <fieldset>
 
@@ -148,6 +150,8 @@
                     <a id="btn_sair" class="btn btn-default" role="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Sair</a>
                     <a id="btn_confirmar" class="btn btn-primary" role="button"><i class="glyphicon glyphicon-ok"></i> Salvar</a>
                 </div>
+                <div id="msg_aviso" class="alert alert-danger invisivel">Falta preencher campos acima.</div>
+                <div id="msg_erro" class="alert alert-danger invisivel">Ops! ocorreu algum erro!</div>
             </div>
         </div>
     </div>
@@ -157,9 +161,7 @@
 @section Scripts{
 
     <script type="text/javascript">
-        //var url_cadastrar = '@Url.Action("CadastrarUsuario", "Usuario")';
-
-        var tabela;
+        //var url_cadastrar = '@Url.Action("CadastrarUsuario", "Usuario")';       
 
         function abrir_form(dados) {
             $('#id_cadastro').val(dados.Id);
@@ -169,7 +171,7 @@
             $('#txt_senha').val(dados.Senha);
 
             var modal_cadastro = $('#modal_cadastro');
-
+         
             bootbox.dialog({
                 title: '@ViewBag.Title',
                 message: modal_cadastro
@@ -181,7 +183,7 @@
             })
             .on('hidden.bs.modal', function () {
                 modal_cadastro.hide().appendTo('body');
-            });
+            });            
         }
 
 
@@ -275,7 +277,7 @@
                             .eq(0).html(param.Id).end()
                             .eq(1).html(param.Nome).end()
                             .eq(2).html(param.Email).end()
-                            .eq(3).html(param.Login).end()
+                            .eq(3).html(param.Login).end();
                             //.eq(3).html(param.Senha).end()
                     }
                     $('#modal_cadastro').parents('.bootbox').modal('hide');
@@ -285,7 +287,7 @@
                     $('#msg_mensagem_aviso').hide();
                     $('#msg_erro').show();
                 }
-                else if (response.Resultado == "SUCESSO") {
+                else if (response.Resultado == "AVISO") {
                     $('#msg_mensagem_aviso').html(formatar_mensagem_aviso(response.Mensagens));
                     $('#msg_aviso').show();
                     $('#msg_mensagem_aviso').show();
@@ -293,6 +295,18 @@
                 }
             });
         });
+
+       function formatar_mensagem_aviso(mensagens){
+           var retorno ='';
+           for (var i = 0; i < mensagens.length; i++) {
+               retorno += '<li>' + mensagens[i] + '</li>';
+           }
+
+           return '<ul>' + retorno + '</ul>';
+        }
+
+
+
         // Inicia o datatable
         $(document).ready(function () {
             tabela = $("#tbl_usuarios").DataTable({

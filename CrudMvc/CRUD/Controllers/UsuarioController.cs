@@ -94,7 +94,7 @@ namespace CRUD.Controllers
                     var id = model.SalvarUsuario();
                     if (id > 0)
                     {
-                        idSalvo = id.ToString();
+                        idSalvo = Convert.ToString(id).ToString();
                     }
                     else
                     {
@@ -104,7 +104,6 @@ namespace CRUD.Controllers
                 catch (Exception ex)
                 {
                     resultado = "ERRO";
-                    throw ex;
                 }
             }
             return Json(new { Resultado = resultado, Mensagens = mensagens, IdSalvo = idSalvo });
