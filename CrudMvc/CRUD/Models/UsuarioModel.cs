@@ -210,7 +210,7 @@ namespace CRUD.Models
                     cmd.CommandType = CommandType.StoredProcedure;
                     conexao.Open();
 
-                    cmd.ExecuteScalar();
+                    retorno = (int)cmd.ExecuteNonQuery();
 
                 }
                 else

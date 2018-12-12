@@ -41,6 +41,19 @@
                         </li>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Consultas
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Cliente", "Index", "Cliente")</li>
+
+                                <li>@Html.ActionLink("Serviço", "CadastrarServico", "Servico")</li>
+
+                                <li>@Html.ActionLink("Recibo", "CadastrarRecibo", "Recibo")</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 Usuários
                                 <span class="caret"></span>
                             </a>
