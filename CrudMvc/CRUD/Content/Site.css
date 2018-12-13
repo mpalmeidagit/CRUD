@@ -67,3 +67,64 @@
     background: #eee;
     margin-top: 30px;
 }
+
+  #tbl_usuarios > thead > tr > th:nth-child(1) {
+        width: 20%;
+    }
+
+    #tbl_usuarios > thead > tr > th:nth-child(2) {
+        width: 20%;
+    }
+
+    #tbl_usuarios > thead > tr > th:nth-child(3) {
+        width: 23%;
+    }
+
+    #tbl_usuarios > thead > tr > th:nth-child(4) {
+        width: 23%;
+    }
+
+    #tbl_usuarios > thead > tr > th:nth-child(6) {
+        text-align: center;
+        width: 23%;
+    }
+
+    .btn_incluir {
+        padding: 0px 0px 0px 0px;
+        margin-top: 15px;
+        margin-bottom: 40px;
+    }
+
+    .modal-dialog {
+        width: 50%;
+    }
+
+    .margem_bottom_default {
+        margin-bottom: 20px;
+    }
+
+    div.dataTables_length select {
+        width: 100px;
+        border-radius: 3px;
+        padding: 4px;
+    }
+
+    div.dataTables_filter input {
+        width: 16em;
+        border-radius: 3px;
+        padding: 4px;
+        border: 1px solid #808080;
+    }
+
+    .form-horizontal .form-group {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+
+    .btn_center {
+        text-align: center;
+    }
+
+    .tela_cadastro_default {
+        margin-top: 20px;
+    }

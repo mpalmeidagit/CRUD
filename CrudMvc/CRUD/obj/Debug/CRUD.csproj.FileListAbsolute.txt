@@ -115,6 +115,5 @@ C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.WebPages.Deployment
 C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.WebPages.Razor.xml
 C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\Antlr3.Runtime.pdb
 C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\Newtonsoft.Json.xml
-C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.csprojResolveAssemblyReference.cache
 C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.dll
 C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.pdb

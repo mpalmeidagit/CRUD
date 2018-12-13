@@ -19,6 +19,7 @@ namespace CRUD.Models
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "Campo email é obrigatório!")]
+        [RegularExpression(@"^[a-zA-Z]+(([\'\,\.\- ][a-zA-Z ])?[a-zA-Z]*)*\s+<(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})>$|^(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})$", ErrorMessage = "Formato do E-mail Inválido.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Campo login é obrigatório!")]
@@ -190,29 +191,84 @@ namespace CRUD.Models
             return resposta;
         }
 
-        public int SalvarUsuario()
+        public static UsuarioModel ValidarEmailEmDuplicidade(string email)
         {
             SqlConnection conexao = null;
             SqlCommand cmd = null;
-            var retorno = 0;
-            
+            UsuarioModel resposta = null;
+            SqlDataReader reader = null;
             try
             {
-
                 conexao = Conexao.getInstancia().ConexaoBD();
-                cmd = new SqlCommand("STP_CADASTRAR_USUARIO", conexao);
-                cmd.Parameters.AddWithValue("@prmNome", SqlDbType.VarChar).Value = this.Nome;
-                cmd.Parameters.AddWithValue("@prmEmail", SqlDbType.VarChar).Value = this.Email;
-                cmd.Parameters.AddWithValue("@prmLogin", SqlDbType.VarChar).Value = this.Login;
-                cmd.Parameters.AddWithValue("@prmSenha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(this.Senha);
+                cmd = new SqlCommand("STP_VALIDAR_EMAIL_EM_DUPLICIDADE", conexao);
+                cmd.Parameters.AddWithValue("@prmEmail", SqlDbType.VarChar).Value = email;
                 cmd.CommandType = CommandType.StoredProcedure;
                 conexao.Open();
 
-                retorno = (int)cmd.ExecuteNonQuery();
+                reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    resposta = new UsuarioModel
+                    {
+                        //Id = (int)reader["id"],
+                       // Login = (string)reader["login"],
+                        //Senha = (string)reader["senha"],
+                       // Nome = (string)reader["nome"],
+                        Email = (string)reader["email"]
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                resposta = null;
+                throw ex;
+            }
+            finally
+            {
+                conexao.Close();
+            }
+
+            return resposta;
+        }
+
+
+        public bool SalvarUsuario()
+        {
+            SqlConnection conexao = null;
+            SqlCommand cmd = null;
+            var retorno = false;
+
+            var email = ValidarEmailEmDuplicidade(this.Email);
+
+           
+            try
+            {
+                if (email == null)
+                {
+                    conexao = Conexao.getInstancia().ConexaoBD();
+                    cmd = new SqlCommand("STP_CADASTRAR_USUARIO", conexao);
+                    cmd.Parameters.AddWithValue("@prmNome", SqlDbType.VarChar).Value = this.Nome;
+                    cmd.Parameters.AddWithValue("@prmEmail", SqlDbType.VarChar).Value = this.Email;
+                    cmd.Parameters.AddWithValue("@prmLogin", SqlDbType.VarChar).Value = this.Login;
+                    cmd.Parameters.AddWithValue("@prmSenha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(this.Senha);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    conexao.Open();
+
+                    int dados = cmd.ExecuteNonQuery();
+                    if (dados > 0)
+                    {
+                        retorno = true;
+                    }
+                }
+                else
+                {
+                    retorno = false;
+                }
 
             }
             catch (Exception ex)
             {
+                retorno = false;         
                 throw ex;
             }
             finally

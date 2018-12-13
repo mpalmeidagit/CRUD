@@ -46,6 +46,7 @@ namespace CRUD.Controllers
             var resultado = "SUCESSO";
             var mensagens = new List<string>();
             var idSalvo = string.Empty;
+            var retornoEmail = "Já existe um cliente cadastrado com este email.";
 
             if (!ModelState.IsValid)
             {
@@ -61,7 +62,7 @@ namespace CRUD.Controllers
                         model.Senha = "";
                     }
                     var id = model.SalvarUsuario();
-                    if (id > 0)
+                    if (id == true)
                     {
                         idSalvo = id.ToString();
                     }
@@ -75,7 +76,7 @@ namespace CRUD.Controllers
                     resultado = "ERRO";
                 }
             }
-            return Json(new { Resultado = resultado, Mensagens = mensagens, IdSalvo = idSalvo });
+            return Json(new { Resultado = resultado, Mensagens = mensagens, IdSalvo = idSalvo, Retorno = retornoEmail });
         }
 
         [HttpPost]
