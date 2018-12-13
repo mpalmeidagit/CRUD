@@ -7,7 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/datatables/dataTables.bootstrap.css" rel="stylesheet" />
-    @*<link href="~/Content/sweetalert2.min.css" rel="stylesheet" />*@
+    <link href="~/Content/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
 </head>
 <body>
     @if (Request.IsAuthenticated)
@@ -33,10 +33,11 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Cliente", "Index", "Cliente")</li>
-
                                 <li>@Html.ActionLink("Serviço", "CadastrarServico", "Servico")</li>
-
                                 <li>@Html.ActionLink("Recibo", "CadastrarRecibo", "Recibo")</li>
+                                <li class="nav-divider"></li>
+                                <li>@Html.ActionLink("Usuário", "Index", "Usuario")</li>
+                                <li>@Html.ActionLink("Perfil", "Index", "Usuario")</li>
                             </ul>
                         </li>
                         <li>
@@ -46,22 +47,14 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Cliente", "Index", "Cliente")</li>
-
                                 <li>@Html.ActionLink("Serviço", "CadastrarServico", "Servico")</li>
-
                                 <li>@Html.ActionLink("Recibo", "CadastrarRecibo", "Recibo")</li>
+                                <li class="nav-divider"></li>
+                                <li>@Html.ActionLink("Usuário", "ConsultarUsuario", "Usuario")</li>
+                                <li>@Html.ActionLink("Perfil", "ConsultarPerfil", "Usuario")</li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                Usuários
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Cadastrar", "Index", "Usuario")</li>
-                                <li>@Html.ActionLink("Consultar", "ConsultarUsuario", "Usuario")</li>
-                            </ul>
-                        </li>
+                      
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 Relatórios
@@ -105,7 +98,7 @@
     <script src="~/Scripts/plugins/datatables/jquery.dataTables.js"></script>
     <script src="~/Scripts/plugins/datatables/dataTables.bootstrap.js"></script>
    
-    @*<script src="~/Scripts/sweetalert2.min.js"></script>*@
+    <script src="~/Scripts/plugins/sweetalert2/sweetalert2.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

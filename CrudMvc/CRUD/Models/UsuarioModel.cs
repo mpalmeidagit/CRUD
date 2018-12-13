@@ -26,7 +26,7 @@ namespace CRUD.Models
 
         [Required(ErrorMessage = "Campo senha é obrigatório!")]
         public string Senha { get; set; }
-       
+
         #endregion
 
         public static UsuarioModel ValidarUsuario(string login, string senha)
@@ -86,12 +86,13 @@ namespace CRUD.Models
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    resposta.Add(new UsuarioModel {
+                    resposta.Add(new UsuarioModel
+                    {
                         Id = (int)reader["id"],
                         Nome = (string)reader["nome"],
                         Email = (string)reader["email"],
                         Login = (string)reader["login"],
-                        Senha  = (string)reader["senha"]
+                        Senha = (string)reader["senha"]
                     });
                 }
 
@@ -147,7 +148,7 @@ namespace CRUD.Models
 
             return resposta;
         }
-        
+
         public bool CadastrarUsuario()
         {
             SqlConnection conexao = null;
@@ -165,7 +166,7 @@ namespace CRUD.Models
                     cmd.Parameters.AddWithValue("@prmNome", SqlDbType.VarChar).Value = this.Nome;
                     cmd.Parameters.AddWithValue("@prmEmail", SqlDbType.VarChar).Value = this.Email;
                     cmd.Parameters.AddWithValue("@prmLogin", SqlDbType.VarChar).Value = this.Login;
-                    cmd.Parameters.AddWithValue("@prmSenha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(this.Senha);                    
+                    cmd.Parameters.AddWithValue("@prmSenha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(this.Senha);
                     cmd.CommandType = CommandType.StoredProcedure;
                     conexao.Open();
 
@@ -194,41 +195,21 @@ namespace CRUD.Models
             SqlConnection conexao = null;
             SqlCommand cmd = null;
             var retorno = 0;
-
-            var model = RecuperarPeloId(this.Id);
-
+            
             try
             {
-                if (model == null)
-                {
-                    conexao = Conexao.getInstancia().ConexaoBD();
-                    cmd = new SqlCommand("STP_CADASTRAR_USUARIO", conexao);
-                    cmd.Parameters.AddWithValue("@prmNome", SqlDbType.VarChar).Value = this.Nome;
-                    cmd.Parameters.AddWithValue("@prmEmail", SqlDbType.VarChar).Value = this.Email;
-                    cmd.Parameters.AddWithValue("@prmLogin", SqlDbType.VarChar).Value = this.Login;
-                    cmd.Parameters.AddWithValue("@prmSenha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(this.Senha);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    conexao.Open();
 
-                    retorno = (int)cmd.ExecuteNonQuery();
+                conexao = Conexao.getInstancia().ConexaoBD();
+                cmd = new SqlCommand("STP_CADASTRAR_USUARIO", conexao);
+                cmd.Parameters.AddWithValue("@prmNome", SqlDbType.VarChar).Value = this.Nome;
+                cmd.Parameters.AddWithValue("@prmEmail", SqlDbType.VarChar).Value = this.Email;
+                cmd.Parameters.AddWithValue("@prmLogin", SqlDbType.VarChar).Value = this.Login;
+                cmd.Parameters.AddWithValue("@prmSenha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(this.Senha);
+                cmd.CommandType = CommandType.StoredProcedure;
+                conexao.Open();
 
-                }
-                else
-                {
-                    conexao = Conexao.getInstancia().ConexaoBD();
-                    cmd = new SqlCommand("STP_ALTERAR_USUARIO", conexao);
-                    cmd.Parameters.AddWithValue("@prmId", SqlDbType.Int).Value = this.Id;
-                    cmd.Parameters.AddWithValue("@prmNome", SqlDbType.VarChar).Value = this.Nome;
-                    cmd.Parameters.AddWithValue("@prmEmail", SqlDbType.VarChar).Value = this.Email;
-                    cmd.Parameters.AddWithValue("@prmLogin", SqlDbType.VarChar).Value = this.Login;                  
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    conexao.Open();
+                retorno = (int)cmd.ExecuteNonQuery();
 
-                    if (cmd.ExecuteNonQuery() > 0)
-                    {
-                        retorno = this.Id;
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -271,9 +252,48 @@ namespace CRUD.Models
                 {
                     conexao.Close();
                 }
-               
+
             }
             return resposta;
+        }
+
+
+        public int EditarUsuario()
+        {
+            SqlConnection conexao = null;
+            SqlCommand cmd = null;
+            var retorno = 0;
+
+            var model = RecuperarPeloId(this.Id);
+
+            try
+            {
+                conexao = Conexao.getInstancia().ConexaoBD();
+                cmd = new SqlCommand("STP_ALTERAR_USUARIO", conexao);
+                cmd.Parameters.AddWithValue("@prmId", SqlDbType.Int).Value = this.Id;
+                cmd.Parameters.AddWithValue("@prmNome", SqlDbType.VarChar).Value = this.Nome;
+                cmd.Parameters.AddWithValue("@prmEmail", SqlDbType.VarChar).Value = this.Email;
+                cmd.Parameters.AddWithValue("@prmLogin", SqlDbType.VarChar).Value = this.Login;
+                cmd.CommandType = CommandType.StoredProcedure;
+                conexao.Open();
+
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    retorno = this.Id;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conexao.Close();
+            }
+
+            return retorno;
+
         }
 
     }

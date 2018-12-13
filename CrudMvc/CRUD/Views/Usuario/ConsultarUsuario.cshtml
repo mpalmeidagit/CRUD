@@ -102,11 +102,65 @@
 
 </div>
 
+@Html.Hidden("id_cadastro");
+<div id="modal_cadastro" class="form-horizontal invisivel" role="dialog">
+
+    <div id="msg_mensagem_aviso" class="text-danger invisivel"></div>
+
+    <fieldset>
+        @Html.AntiForgeryToken()
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("txt_nome", "Nome", new { @class = "control-label" })
+                @Html.TextBox("txt_nome", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("txt_email", "Email", new { @class = "control-label" })
+                @Html.TextBox("txt_email", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("txt_login", "Login", new { @class = "control-label" })
+                @Html.TextBox("txt_login", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("txt_senha", "Senha", new { @class = "control-label" })
+                @Html.Password("txt_senha", null, new { @class = "form-control" })
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="modal-footer">
+                    <a id="btn_sair" class="btn btn-default" role="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Sair</a>
+                    <a id="btn_confirmar" class="btn btn-primary" role="button"><i class="glyphicon glyphicon-ok"></i> Salvar</a>
+                </div>
+                <div id="msg_aviso" class="alert alert-danger invisivel">Falta preencher campos acima.</div>
+                <div id="msg_erro" class="alert alert-danger invisivel">Ops! ocorreu algum erro!</div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 @section Scripts{
 
     <script type="text/javascript">
         //var url_cadastrar = '@Url.Action("CadastrarUsuario", "Usuario")';
+
+
+        function add_anti_forgery_token(data) {
+            data.__RequestVerificationToken = $('[name=__RequestVerificationToken]').val();
+            return data;
+        }
 
         function abrir_form(dados) {
             $('#id_cadastro').val(dados.Id);
@@ -141,7 +195,7 @@
         function criar_linha_grid(dados) {
             var retorno =
                 '<tr data-id=' + dados.Id + '>' +
-                '<td>' + dados.Id + '</td>' +
+                //'<td>' + dados.Id + '</td>' +
                 '<td>' + dados.Nome + '</td>' +
                 '<td>' + dados.Email + '</td>' +
                 '<td>' + dados.Login + '</td>' +
@@ -166,7 +220,7 @@
                  id = btn.closest('tr').attr('data-id'),
                  url = '@Url.Action("RecuperarPorId", "Usuario")',
                  param = { 'id': id };
-            $.post(url, param, function (response) {
+            $.post(url, add_anti_forgery_token(param), function (response) {
                 if (response) {
                     abrir_form(response);
                      //set_focus_form();
@@ -195,7 +249,7 @@
                  },
                  callback: function (result) {
                      if (result) {
-                         $.post(url, param, function (response) {
+                         $.post(url, add_anti_forgery_token(param), function (response) {
                              if (response) {
                                  tr.remove();
                              }
@@ -206,7 +260,7 @@
          })
         .on('click', '#btn_confirmar', function () {
             var btn = $(this),
-                 url = '@Url.Action("SalvarUsuario", "Usuario")',
+                 url = '@Url.Action("EditarUsuario", "Usuario")',
                 param = {
                     Id: $('#id_cadastro').val(),
                     Nome: $('#txt_nome').val(),
@@ -214,7 +268,7 @@
                     Login: $('#txt_login').val(),
                     Senha: $('#txt_senha').val()
                 };
-            $.post(url, param, function (response) {
+            $.post(url, add_anti_forgery_token(param), function (response) {
                 if (response.Resultado == "SUCESSO") {
                     if (param.Id == 0) {
                         param.Id = response.IdSalvo;
@@ -225,10 +279,10 @@
                     else {
                         var linha = $('#tbl_usuarios').find('tr[data-id=' + param.Id + ']').find('td');
                         linha
-                            .eq(0).html(param.Id).end()
-                            .eq(1).html(param.Nome).end()
-                            .eq(2).html(param.Email).end()
-                            .eq(3).html(param.Login).end();
+                            //.eq(0).html(param.Id).end()
+                            .eq(0).html(param.Nome).end()
+                            .eq(1).html(param.Email).end()
+                            .eq(2).html(param.Login).end();
                             //.eq(3).html(param.Senha).end()
                     }
                     $('#modal_cadastro').parents('.bootbox').modal('hide');
@@ -272,7 +326,7 @@
                     { "bSortable": false }
                 ]
             });
-            tabela.fnSetColumnVis(0, true);
+            tabela.fnSetColumnVis(0, false);
             tabela.fnSetColumnVis(4, false);
         });
 
