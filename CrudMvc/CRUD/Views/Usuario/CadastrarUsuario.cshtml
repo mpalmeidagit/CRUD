@@ -28,17 +28,17 @@
 
             </div>
 
-            <div class="form-group  col-md-6">
-
+            <div class="form-group  col-md-4">
                 @Html.Label("txt_login", "Login", new { @class = "control-label" })
                 @Html.TextBox("txt_login", null, new { @class = "form-control" })
-
             </div>
-            <div class="form-group col-md-6">
-
+            <div class="form-group col-md-4">
                 @Html.Label("txt_senha", "Senha", new { @class = "control-label" })
                 @Html.Password("txt_senha", null, new { @class = "form-control" })
-
+            </div>
+            <div class="form-group col-md-4">
+                @Html.Label("txt_perfil", "Perfil", new { @class = "control-label" })
+                @Html.DropDownList("ddl_perfil", new SelectList(ViewBag.ListarPerfil,"Id","Nome"), new { @class = "form-control" })
             </div>
             <div class="col-md-3">
                 <a id="btn_incluir" role="button" class="btn btn-success btn-block"><span class="glyphicon glyphicon-ok-sign"></span> Incluir Novo Usuário</a>
@@ -53,6 +53,7 @@
     </div>
     <div class="col-md-12">
         <div id="msg_aviso" class="alert alert-danger invisivel">Por favor preencha os campos.</div>
+        <div id="msg_email" class="alert alert-danger invisivel">Já existe um usuário cadastrado com este email.</div>
         <div id="msg_erro" class="alert alert-danger invisivel">Ops! ocorreu algum erro!</div>
         <div id="msg_mensagem_aviso" class="text-danger invisivel"></div>
     </div>

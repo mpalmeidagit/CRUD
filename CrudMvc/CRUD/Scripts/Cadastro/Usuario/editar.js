@@ -9,7 +9,9 @@ function abrir_form(dados) {
     $('#txt_email').val(dados.Email);
     $('#txt_login').val(dados.Login);
     $('#txt_senha').val(dados.Senha);
+    $('#ddl_perfil').val(dados.IdPerfil);
 
+   
     var modal_cadastro = $('#modal_cadastro');
 
     $('#msg_mensagem_aviso').empty();
@@ -19,7 +21,7 @@ function abrir_form(dados) {
 
 
     bootbox.dialog({
-        title: '@ViewBag.Title',
+        title: tituloPagina,
         message: modal_cadastro
     })
     .on('shown.bs.modal', function () {
@@ -40,6 +42,7 @@ function criar_linha_grid(dados) {
         '<td>' + dados.Nome + '</td>' +
         '<td>' + dados.Email + '</td>' +
         '<td>' + dados.Login + '</td>' +
+        //'<td>' + dados.IdPerfil + '</td>' +
         //'<td>' + dados.Senha + '</td>' +
         '<td class="text-center">' +
         '<a class="btn btn-primary btn-alterar" role="button" style="margin-right: 3px"><i class="glyphicon glyphicon-pencil"></i> </a>' +
@@ -61,7 +64,6 @@ $(document).on('click', '.btn-alterar', function () {
             abrir_form(response);
             //set_focus_form();
         }
-
     });
 })
 
@@ -71,6 +73,7 @@ $(document).on('click', '.btn-alterar', function () {
         id = tr.attr('data-id'),
         url = url_remover_usuario,
         param = { 'id': id };
+
     bootbox.confirm({
         message: "Realmente deseja excluir o usuário?",
         buttons: {
@@ -103,51 +106,104 @@ $(document).on('click', '.btn-alterar', function () {
 .on('click', '#btn_confirmar', function () {
     var btn = $(this),
          url = url_editar_usuario;
-        param = {
-            Id: $('#id_cadastro').val(),
-            Nome: $('#txt_nome').val(),
-            Email: $('#txt_email').val(),
-            Login: $('#txt_login').val(),
-            Senha: $('#txt_senha').val()
-        };
-    $.post(url, add_anti_forgery_token(param), function (response) {
-        if (response.Resultado == "SUCESSO") {
-            if (param.Id == 0) {
-                param.Id = response.IdSalvo;
-                var table = $('#tbl_usuarios').find('tbody'),
-                    linha = criar_linha_grid(param);
-                table.append(linha);
+    param = {
+        Id: $('#id_cadastro').val(),
+        Nome: $('#txt_nome').val(),
+        Email: $('#txt_email').val(),
+        Login: $('#txt_login').val(),
+        Senha: $('#txt_senha').val(),
+        IdPerfil: $('#ddl_perfil').val()
+    };
+    if (param.Nome === "") {
+        $('#txt_nome').focus();
+        swal({
+            type: 'error',
+            position: 'top',
+            title: 'Aviso',
+            text: 'Campo nome é obrigatório',
+        })
+    } else if (param.Email === "") {
+        $('#txt_email').focus();
+        swal({
+            type: 'error',
+            position: 'top',
+            title: 'Aviso',
+            text: 'Campo email é obrigatório',
+        })
+    } else if (param.Login === "") {
+        $('#txt_login').focus();
+        swal({
+            type: 'error',
+            position: 'top',
+            title: 'Aviso',
+            text: 'Campo login é obrigatório',
+        })
+    }
+    else if (param.Senha === "") {
+        $('#txt_senha').focus();
+        swal({
+            type: 'error',
+            position: 'top',
+            title: 'Aviso',
+            text: 'Campo senha é obrigatório',
+        })
+    } else {
+        $.post(url, add_anti_forgery_token(param), function (response) {
+            if (response.Resultado == "SUCESSO") {
+                if (param.Id == 0) {
+                    param.Id = response.IdSalvo;
+                    var table = $('#tbl_dados').find('tbody'),
+                        linha = criar_linha_grid(param);
+                    table.append(linha);
+                }
+                else {
+                    var linha = $('#tbl_dados').find('tr[data-id=' + param.Id + ']').find('td');
+                    linha
+                        //.eq(0).html(param.Id).end()
+                        .eq(0).html(param.Nome).end()
+                        .eq(1).html(param.Email).end()
+                        .eq(2).html(param.Login).end()
+                    //.eq(3).html(param.IdPerfil).end();
+                    //.eq(3).html(param.Senha).end()
+                }
+                $('#modal_cadastro').parents('.bootbox').modal('hide');
+                swal({
+                    position: 'top',
+                    type: 'success',
+                    text: 'Operação realizada com sucesso.',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
             }
-            else {
-                var linha = $('#tbl_usuarios').find('tr[data-id=' + param.Id + ']').find('td');
-                linha
-                    //.eq(0).html(param.Id).end()
-                    .eq(0).html(param.Nome).end()
-                    .eq(1).html(param.Email).end()
-                    .eq(2).html(param.Login).end();
-                //.eq(3).html(param.Senha).end()
+            else if (response.Resultado) {
+                swal({
+                    position: 'top',
+                    type: 'error',
+                    text: response.Resultado,
+                    title: 'Aviso',
+                });
             }
-            $('#modal_cadastro').parents('.bootbox').modal('hide');
-            swal({
-                position: 'top',
-                type: 'success',
-                text: 'Operação realizada com sucesso.',
-                showConfirmButton: false,
-                timer: 2500
-            });
-        }
-        else if (response.Resultado == "ERRO") {
-            $('#msg_aviso').hide();
-            $('#msg_mensagem_aviso').hide();
-            $('#msg_erro').show();
-        }
-        else if (response.Resultado == "AVISO") {
-            $('#msg_mensagem_aviso').html(formatar_mensagem_aviso(response.Mensagens));
-            $('#msg_aviso').show();
-            $('#msg_mensagem_aviso').show();
-            $('#msg_erro').hide();
-        }
-    });
+            else if (response.Resultado == "ERRO") {
+                $('#msg_aviso').hide();
+                $('#msg_mensagem_aviso').hide();
+                $('#msg_erro').show();
+            }
+            else if (response.Resultado == "AVISO") {
+                $('#msg_mensagem_aviso').html(formatar_mensagem_aviso(response.Mensagens));
+                $('#msg_aviso').show();
+                $('#msg_mensagem_aviso').show();
+                $('#msg_erro').hide();
+            }
+            else if (response.Resultado) {
+                swal({
+                    position: 'top',
+                    type: 'error',
+                    text: response.Resultado,
+                    title: 'Aviso',
+                });
+            }
+        });
+    }
 });
 
 function formatar_mensagem_aviso(mensagens) {
@@ -163,7 +219,7 @@ function formatar_mensagem_aviso(mensagens) {
 
 // Inicia o datatable
 $(document).ready(function () {
-    tabela = $("#tbl_usuarios").DataTable({
+    tabela = $("#tbl_dados").DataTable({
         "aaSorting": [[0, 'desc']],
         "bSort": true,
         "aoColumns": [
@@ -172,6 +228,7 @@ $(document).ready(function () {
             null,
             null,
             null,
+            //null,
             { "bSortable": false }
         ]
     });

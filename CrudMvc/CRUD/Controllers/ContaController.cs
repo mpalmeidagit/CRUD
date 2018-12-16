@@ -31,13 +31,18 @@ namespace CRUD.Controllers
 
             if (usuario != null)
             {
-                FormsAuthentication.SetAuthCookie(usuario.Nome, login.LembrarMe);
+                //FormsAuthentication.SetAuthCookie(usuario.Nome, login.LembrarMe);
+              var tiket=  FormsAuthentication.Encrypt(new FormsAuthenticationTicket(
+                    1, usuario.Nome, DateTime.Now, DateTime.Now.AddMinutes(50), login.LembrarMe, PerfilModel.RecuperarPeloId(usuario.IdPerfil).Nome));
+                var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, tiket);
+                Response.Cookies.Add(cookie);
+
                 if (Url.IsLocalUrl(returnUrl))
                 {
                     return Redirect(returnUrl);
                 }
                 else
-                {                   
+                {
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -53,7 +58,7 @@ namespace CRUD.Controllers
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

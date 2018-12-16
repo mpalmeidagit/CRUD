@@ -1,0 +1,93 @@
+﻿@model List<CRUD.Models.PerfilModel>
+@{
+    ViewBag.Title = "Consultar Perfil";
+}
+
+<style type="text/css">
+   #tbl_dados > thead > tr > th:nth-child(2) {
+    width: 20% !important;
+}
+</style>
+
+<div class="container home conteudo_painel">
+    <div class="panel panel-primary titulo_padrao">
+        <div class="panel-heading">
+            @ViewBag.Title
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="tbl_dados" class="table table-bordered">
+                    <thead>
+                        <tr class="active">   
+                            <th>Código</th>                         
+                            <th>Nome</th>                          
+                            <th class="text-center">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr data-id="@item.Id">  
+                                <td>@item.Id</td>                              
+                                <td>@item.Nome</td>                               
+                                <td class="text-center">
+                                    <a class="btn btn-primary btn-alterar" role="button"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                    <a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i> </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+@Html.Hidden("id_cadastro");
+<div id="modal_cadastro" class="form-horizontal invisivel" role="dialog">
+
+    <div id="msg_mensagem_aviso" class="text-danger invisivel"></div>
+
+    <fieldset>
+        @Html.AntiForgeryToken()
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.Label("txt_nome", "Nome", new { @class = "control-label" })
+                @Html.TextBox("txt_nome", null, new { @class = "form-control" })
+            </div>
+        </div>       
+    </fieldset>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="modal-footer">
+                    <a id="btn_sair" class="btn btn-default" role="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Sair</a>
+                    <a id="btn_confirmar" class="btn btn-primary" role="button"><i class="glyphicon glyphicon-ok"></i> Salvar</a>
+                </div>
+                <div id="msg_aviso" class="alert alert-danger invisivel">Falta preencher campos acima.</div>
+                <div id="msg_erro" class="alert alert-danger invisivel">Ops! ocorreu algum erro!</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        var tituloPagina = '@ViewBag.Title';
+        var url_recuperar_perfil = '@Url.Action("RecuperarPorId", "Perfil")';
+        var url_remover_perfil = '@Url.Action("ExcluirPerfil", "Perfil")';
+        var url_editar_perfil = '@Url.Action("EditarPerfil", "Perfil")';
+        
+    </script>
+
+    <script src="~/Scripts/Cadastro/Perfil/editar.js"></script>
+
+}
+

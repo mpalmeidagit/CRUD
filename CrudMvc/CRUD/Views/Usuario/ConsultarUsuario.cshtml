@@ -10,7 +10,7 @@
         </div>
         <div class="panel-body">
             <div class="table-responsive">
-                <table id="tbl_usuarios" class="table table-bordered">
+                <table id="tbl_dados" class="table table-bordered">
                     <thead>
                         <tr class="active">
                             <th>ID</th>
@@ -18,6 +18,7 @@
                             <th>Email</th>
                             <th>Login</th>
                             <th>Senha</th>
+                            @*<th>Perfil</th>*@
                             <th class="text-center">Ação</th>
                         </tr>
                     </thead>
@@ -30,6 +31,7 @@
                                 <td>@item.Email</td>
                                 <td>@item.Login</td>
                                 <td>@item.Senha</td>
+                                @*<td>@item.IdPerfil</td>*@
                                 <td class="text-center">
                                     <a class="btn btn-primary btn-alterar" role="button"><i class="glyphicon glyphicon-pencil"></i> </a>
                                     <a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i> </a>
@@ -64,18 +66,27 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 @Html.Label("txt_login", "Login", new { @class = "control-label" })
                 @Html.TextBox("txt_login", null, new { @class = "form-control" })
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 @Html.Label("txt_senha", "Senha", new { @class = "control-label" })
                 @Html.Password("txt_senha", null, new { @class = "form-control" })
             </div>
         </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.Label("txt_Perfil", "Perfil", new { @class = "control-label" })
+                @Html.DropDownList("ddl_perfil", new SelectList(ViewBag.ListarPerfil, "Id", "Nome"), new { @class = "form-control" })
+            </div>
+        </div>
+             
+
     </fieldset>
 
     <div class="row">
@@ -97,6 +108,7 @@
 
     <script type="text/javascript">
 
+        var tituloPagina = '@ViewBag.Title';
         var url_recuperar_usuarios = '@Url.Action("RecuperarPorId", "Usuario")';
         var url_remover_usuario = '@Url.Action("ExcluirUsuario", "Usuario")';
         var url_editar_usuario = '@Url.Action("EditarUsuario", "Usuario")';

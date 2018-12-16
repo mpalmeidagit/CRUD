@@ -8,39 +8,37 @@ using System.Web.Mvc;
 namespace CRUD.Controllers
 {
     [Authorize(Roles = "Administrador,Gerente,Operador")]
-    public class UsuarioController : Controller
+    public class PerfilController : Controller
     {
 
-        private const string _senhaDefault = "{$127;$188}";
-
-        public ActionResult CadastrarUsuario()
+        public ActionResult ConsultarPerfil()
         {
-            ViewBag.ListarPerfil = PerfilModel.RecuperarListaAtivos();
-            return View(UsuarioModel.RecuperarUsuario());
+            ViewBag.ListaUsuario = UsuarioModel.RecuperarUsuario();
+            return View(PerfilModel.RecuperarPerfil());
         }
 
-        public ActionResult ConsultarUsuario()
+        public ActionResult CadastrarPerfil()
         {
-            ViewBag.ListarPerfil = PerfilModel.RecuperarListaAtivos();
-            return View(UsuarioModel.RecuperarUsuario());
+            ViewBag.ListaUsuario = UsuarioModel.RecuperarUsuario();
+            return View(PerfilModel.RecuperarPerfil());
         }
 
-        [HttpPost]       
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RecuperarPorId(int id)
-        {
-            return Json(UsuarioModel.RecuperarPeloId(id));
+        public JsonResult RecuperarPorId(int id)
+        {            
+            return Json(PerfilModel.RecuperarPeloId(id));
         }
-             
-        [HttpPost]       
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult SalvarUsuario(UsuarioModel model)
+        public JsonResult SalvarPerfil(PerfilModel model)
         {
             var resultado = "SUCESSO";
             var mensagens = new List<string>();
             var idSalvo = string.Empty;
             var retorno = string.Empty;
-          
+
             if (!ModelState.IsValid)
             {
                 resultado = "AVISO";
@@ -50,11 +48,7 @@ namespace CRUD.Controllers
             {
                 try
                 {
-                    if (model.Senha == _senhaDefault)
-                    {
-                        model.Senha = "";
-                    }
-                    var id = model.SalvarUsuario();
+                    var id = model.SalvarPerfil();
                     if (id == true)
                     {
                         idSalvo = id.ToString();
@@ -71,12 +65,12 @@ namespace CRUD.Controllers
                     resultado = retorno;
                 }
             }
-            return Json(new { Resultado = resultado, Mensagens = mensagens, IdSalvo = idSalvo});
+            return Json(new { Resultado = resultado, Mensagens = mensagens, IdSalvo = idSalvo });
         }
 
-        [HttpPost]        
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult EditarUsuario(UsuarioModel model)
+        public JsonResult EditarPerfil(PerfilModel model)
         {
             var resultado = "SUCESSO";
             var mensagens = new List<string>();
@@ -91,12 +85,8 @@ namespace CRUD.Controllers
             else
             {
                 try
-                {
-                    if (model.Senha == _senhaDefault)
-                    {
-                        model.Senha = "";
-                    }
-                    var id = model.EditarUsuario();
+                {                 
+                    var id = model.EditarPerfil();
                     if (id > 0)
                     {
                         idSalvo = id.ToString();
@@ -119,10 +109,11 @@ namespace CRUD.Controllers
         [HttpPost]
         [Authorize(Roles = "Administrador,Gerente")]
         [ValidateAntiForgeryToken]
-        public JsonResult ExcluirUsuario(int id)
+        public JsonResult ExcluirPerfil(int id)
         {
-            return Json(UsuarioModel.ExcluirUsuario(id));
+            return Json(PerfilModel.ExcluirPerfil(id));
         }
+
 
     }
 }

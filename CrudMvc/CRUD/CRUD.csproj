@@ -123,6 +123,7 @@
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\ContaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -155,6 +156,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Cadastro\cliente.js" />
+    <Content Include="Scripts\Cadastro\Perfil\cadastro.js" />
+    <Content Include="Scripts\Cadastro\Perfil\editar.js" />
     <Content Include="Scripts\Cadastro\Usuario\cadastro.js" />
     <Content Include="Scripts\Cadastro\Usuario\editar.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -191,8 +194,10 @@
     <Content Include="Views\Cliente\ConsultarCliente.cshtml" />
     <Content Include="Views\Conta\Login.cshtml" />
     <Content Include="Views\Conta\Login11.cshtml" />
-    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Usuario\CadastrarUsuario.cshtml" />
     <Content Include="Views\Usuario\ConsultarUsuario.cshtml" />
+    <Content Include="Views\Perfil\ConsultarPerfil.cshtml" />
+    <Content Include="Views\Perfil\CadastrarPerfil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

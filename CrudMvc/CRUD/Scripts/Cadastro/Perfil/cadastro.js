@@ -7,9 +7,6 @@ var Resultado;
 
 function LimparCampos() {
     var CampoNome = $("#txt_nome").val('');
-    var CampoEmail = $("#txt_email").val('');
-    var CampoLogin = $("#txt_login").val('');
-    var CampoSenha = $("#txt_senha").val('');
 
     $('#msg_mensagem_aviso').empty();
     $('#msg_aviso').hide();
@@ -20,14 +17,10 @@ function LimparCampos() {
 
 $(document).on('click', '#btn_incluir', function () {
     var btn = $(this),
-         url = url_cadastrar_usuario,
+         url = url_cadastrar_perfil,
         param = {
             Id: $('#id_cadastro').val(),
-            Nome: $('#txt_nome').val(),
-            Email: $('#txt_email').val(),
-            Login: $('#txt_login').val(),
-            Senha: $('#txt_senha').val(),
-            IdPerfil: $('#ddl_perfil').val()
+            Nome: $('#txt_nome').val()
         };
     if (param.Nome === "") {
         $('#txt_nome').focus();
@@ -36,31 +29,6 @@ $(document).on('click', '#btn_incluir', function () {
             position: 'top',
             title: 'Aviso',
             text: 'Campo nome é obrigatório',
-        })
-    } else if (param.Email === "") {
-        $('#txt_email').focus();
-        swal({
-            type: 'error',
-            position: 'top',
-            title: 'Aviso',
-            text: 'Campo email é obrigatório',
-        })
-    } else if (param.Login === "") {
-        $('#txt_login').focus();
-        swal({
-            type: 'error',
-            position: 'top',
-            title: 'Aviso',
-            text: 'Campo login é obrigatório',
-        })
-    }
-    else if (param.Senha === "") {
-        $('#txt_senha').focus();
-        swal({
-            type: 'error',
-            position: 'top',
-            title: 'Aviso',
-            text: 'Campo senha é obrigatório',
         })
     } else {
         $.post(url, add_anti_forgery_token(param), function (response) {
@@ -92,12 +60,12 @@ $(document).on('click', '#btn_incluir', function () {
                 $('#msg_mensagem_aviso').show();
                 $('#msg_erro').hide();
             }
-            else if (response.Resultado) {                
+            else if (response.Resultado) {
                 swal({
                     position: 'top',
                     type: 'error',
                     text: response.Resultado,
-                    title: 'Aviso',                                      
+                    title: 'Aviso',
                 });
             }
         });

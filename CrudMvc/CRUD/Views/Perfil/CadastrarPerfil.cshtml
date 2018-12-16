@@ -1,0 +1,61 @@
+﻿@model List<CRUD.Models.PerfilModel>
+
+@{
+    ViewBag.Title = "Cadastrar Perfil";
+
+}
+
+<div class="container home conteudo_painel">
+
+    <div class="panel panel-primary tela_cadastro_default">
+
+        <div class="panel-heading">
+            @ViewBag.Title
+        </div>
+
+        <div class="panel-body">
+            @Html.AntiForgeryToken()
+            <div class="form-group col-md-12">
+
+                @Html.Label("txt_nome", "Nome", new { @class = "control-label" })
+                @Html.TextBox("txt_nome", null, new { @class = "form-control" })
+
+            </div>          
+           
+            <div class="col-md-3">
+                <a id="btn_incluir" role="button" class="btn btn-success btn-block"><span class="glyphicon glyphicon-ok-sign"></span> Incluir Novo Usuário</a>
+
+            </div>
+            <div class="col-md-3">
+                <a id="btn_cancelar" role="button" class="btn btn-danger btn-block"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</a>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-12">
+        <div id="msg_aviso" class="alert alert-danger invisivel">Por favor preencha os campos.</div>
+        <div id="msg_email" class="alert alert-danger invisivel">Já existe um usuário cadastrado com este email.</div>
+        <div id="msg_erro" class="alert alert-danger invisivel">Ops! ocorreu algum erro!</div>
+        <div id="msg_mensagem_aviso" class="text-danger invisivel"></div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        var url_cadastrar_perfil = '@Url.Action("SalvarPerfil", "Perfil")';
+
+
+
+    </script>
+
+    <script src="~/Scripts/Cadastro/Perfil/cadastro.js"></script>
+
+}
+
+
+
+
