@@ -1,79 +1,89 @@
-﻿
+﻿@model List<CRUD.Models.ClienteModel>
 @{
     ViewBag.Title = "Cadastrar Cliente";
 }
 <div class="container home conteudo_painel">
-    <div class="row">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Cadastrar cliente
+
+    <div class="panel panel-primary tela_cadastro_default">
+        <div class="panel-heading">
+            @ViewBag.Title
+        </div>
+        <div class="panel-body form-inline">
+            @Html.AntiForgeryToken()
+            <div class="form-group col-md-6">
+                @Html.Label("txtNome", "Nome", new { Class = "control-label" })
+                @Html.TextBox("txtNome", null, new { Class = "form-control" })
             </div>
-            <div class="panel-body form-inline">
-                <div class="row margin_bottom_default_row">
-                    <div class="form-group col-md-6">
-                        @Html.Label("txtNome", "Nome", new { Class = "control-label" })
-                        @Html.TextBox("txtNome", null, new { Class = "form-control" })
-                    </div>
-                    <div class="form-group col-md-6">
-                        @Html.Label("txtEmail", "E-mail", new { Class = "control-label" })
-                        @Html.TextBox("txtEmail", null, new { Class = "form-control" })
-                    </div>
-                </div>
-
-                <div class="row margin_bottom_default_row">
-                    <div class="form-group col-md-4">
-                        @Html.Label("txtCPF", "CPF", new { Class = "control-label" })
-                        @Html.TextBox("txtCPF", null, new { Class = "form-control" })
-                    </div>
-                    <div class="form-group col-md-4">
-                        @Html.Label("txtTelefone", "Telefone", new { Class = "control-label" })
-                        @Html.TextBox("txtTelefone", null, new { Class = "form-control" })
-                    </div>
-                    <div class="form-group col-md-2">
-                        @Html.Label("txtCEP", "CEP", new { Class = "control-label" })
-                        @Html.TextBox("txtCEP", null, new { Class = "form-control" })
-                    </div>
-                    <div class="form-group col-md-2">
-                        @Html.Label("txtEstado", "Estado", new { Class = "control-label" })
-                        @Html.TextBox("txtEstado", null, new { Class = "form-control" })
-                    </div>
-                </div>
-
-                <div class="row margin_bottom_default_row">
-                    <div class="form-group col-md-4">
-                        @Html.Label("txtCidade", "Cidade", new { Class = "control-label" })
-                        @Html.TextBox("txtCidade", null, new { Class = "form-control" })
-                    </div>
-                    <div class="form-group col-md-4">
-                        @Html.Label("txtBairro", "Bairro", new { Class = "control-label" })
-                        @Html.TextBox("txtBairro", null, new { Class = "form-control" })
-                    </div>
-                    <div class="form-group col-md-4">
-                        @Html.Label("txtEndereco", "Endereço", new { Class = "control-label" })
-                        @Html.TextBox("txtEndereco", null, new { Class = "form-control" })
-                    </div>
-
-                </div>
+            <div class="form-group col-md-6">
+                @Html.Label("txtEmail", "E-mail", new { Class = "control-label" })
+                @Html.TextBox("txtEmail", null, new { Class = "form-control" })
             </div>
-            <div class="panel-footer">
-                <a id="btn_incluir" class="btn btn-success" role="button"><i class="glyphicon glyphicon-ok-sign"></i> Salvar</a>
+
+            <div class="form-group col-md-4">
+                @Html.Label("txtCPF", "CPF", new { Class = "control-label" })
+                @Html.TextBox("txtCPF", null, new { Class = "form-control" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.Label("txtTelefone", "Telefone", new { Class = "control-label" })
+                @Html.TextBox("txtTelefone", null, new { Class = "form-control" })
+            </div>
+            <div class="form-group col-md-2">
+                @Html.Label("txtCEP", "CEP", new { Class = "control-label" })
+                @Html.TextBox("txtCEP", null, new { Class = "form-control" })
+            </div>
+            <div class="form-group col-md-2">
+                @Html.Label("txtEstado", "Estado", new { Class = "control-label" })
+                @Html.TextBox("txtEstado", null, new { Class = "form-control" })
+            </div>
+
+            <div class="form-group col-md-4">
+                @Html.Label("txtCidade", "Cidade", new { Class = "control-label" })
+                @Html.TextBox("txtCidade", null, new { Class = "form-control" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.Label("txtBairro", "Bairro", new { Class = "control-label" })
+                @Html.TextBox("txtBairro", null, new { Class = "form-control" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.Label("txtEndereco", "Endereço", new { Class = "control-label" })
+                @Html.TextBox("txtEndereco", null, new { Class = "form-control" })
+
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="col-md-12">
+                <a id="btn_incluir" class="btn btn-success" role="button"><i class="glyphicon glyphicon-ok-sign"></i> Incluir Novo Cliente</a>
                 <a id="btn_cancelar" class="btn btn-danger" role="button"><i class="glyphicon glyphicon-remove-sign"></i> Cancelar</a>
             </div>
         </div>
-
     </div>
-    </div>  
+
+    <div class="col-md-12">
+        <div id="msg_aviso" class="alert alert-danger invisivel">Por favor preencha os campos.</div>
+        <div id="msg_email" class="alert alert-danger invisivel">Já existe um usuário cadastrado com este email.</div>
+        <div id="msg_erro" class="alert alert-danger invisivel">Ops! ocorreu algum erro!</div>
+        <div id="msg_mensagem_aviso" class="text-danger invisivel"></div>
+    </div>
+
+</div>
 
 
-    @section Scripts{
 
-        <script type="text/javascript">
+@section Scripts{
 
-        var url_cadastrar = '@Url.Action("CadastrarCliente", "Cliente")';
+    <script type="text/javascript">
 
-        </script>
+        var url_cadastrar_cliente = '@Url.Action("SalvarCliente", "Cliente")';
 
-        <script src="~/Scripts/Cadastro/cliente.js"></script>
+        $(document).ready(function () {
+            $('#txtCPF').mask('000.000.000-00');
+            $('#txtTelefone').mask('(00) 00000-0000');
+            $('#txtCEP').mask('00000-000');
+        });
 
-    }
+    </script>
+    <script src="~/Scripts/plugins/jquery-mask/jquery.mask.min.js"></script>
+    <script src="~/Scripts/Cadastro/Cliente/cadastro.js"></script>
+
+}
 

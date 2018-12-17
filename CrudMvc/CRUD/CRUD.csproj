@@ -155,7 +155,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\Cadastro\cliente.js" />
+    <Content Include="Scripts\Cadastro\Cliente\cadastro.js" />
+    <Content Include="Scripts\Cadastro\Cliente\editar.js" />
     <Content Include="Scripts\Cadastro\Perfil\cadastro.js" />
     <Content Include="Scripts\Cadastro\Perfil\editar.js" />
     <Content Include="Scripts\Cadastro\Usuario\cadastro.js" />

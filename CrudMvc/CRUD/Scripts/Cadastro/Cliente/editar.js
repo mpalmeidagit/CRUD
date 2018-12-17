@@ -1,17 +1,22 @@
-﻿function add_anti_forgery_token(data) {
+﻿
+function add_anti_forgery_token(data) {
     data.__RequestVerificationToken = $('[name=__RequestVerificationToken]').val();
     return data;
 }
 
 function abrir_form(dados) {
     $('#id_cadastro').val(dados.Id);
-    $('#txt_nome').val(dados.Nome);
-    $('#txt_email').val(dados.Email);
-    $('#txt_login').val(dados.Login);
-    $('#txt_senha').val(dados.Senha);
-    $('#ddl_perfil').val(dados.IdPerfil);
+    $('#txtNome').val(dados.Nome);
+    $('#txtEmail').val(dados.Email);
+    $('#txtCPF').val(dados.CPF);
+    $('#txtTelefone').val(dados.Telefone);
+    $('#txtCEP').val(dados.CEP);
+    $('#txtEstado').val(dados.Estado);
+    $('#txtCidade').val(dados.Cidade);
+    $('#txtBairro').val(dados.Bairro);
+    $('#txtEndereco').val(dados.Endereco);
 
-   
+
     var modal_cadastro = $('#modal_cadastro');
 
     $('#msg_mensagem_aviso').empty();
@@ -41,9 +46,13 @@ function criar_linha_grid(dados) {
         //'<td>' + dados.Id + '</td>' +
         '<td>' + dados.Nome + '</td>' +
         '<td>' + dados.Email + '</td>' +
-        '<td>' + dados.Login + '</td>' +
-        //'<td>' + dados.IdPerfil + '</td>' +
-        //'<td>' + dados.Senha + '</td>' +
+        '<td>' + dados.CPF + '</td>' +
+        '<td>' + dados.Telefone + '</td>' +
+       // '<td>' + dados.CEP + '</td>' +
+        '<td>' + dados.Estado + '</td>' +
+        //'<td>' + dados.Cidade + '</td>' +
+        //'<td>' + dados.Bairro + '</td>' +
+        //'<td>' + dados.Endereco + '</td>' +
         '<td class="text-center">' +
         '<a class="btn btn-primary btn-alterar" role="button" style="margin-right: 3px"><i class="glyphicon glyphicon-pencil"></i> </a>' +
         '<a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i></a>' +
@@ -57,7 +66,7 @@ $(document).on('click', '.btn-alterar', function () {
     $('#txt_senha').attr('readonly', true);
     var btn = $(this),
          id = btn.closest('tr').attr('data-id'),
-         url = url_recuperar_usuarios,
+         url = url_recuperar_cliente,
          param = { 'id': id };
     $.post(url, add_anti_forgery_token(param), function (response) {
         if (response) {
@@ -71,11 +80,11 @@ $(document).on('click', '.btn-alterar', function () {
     var btn = $(this),
         tr = btn.closest('tr'),
         id = tr.attr('data-id'),
-        url = url_remover_usuario,
+        url = url_remover_cliente,
         param = { 'id': id };
 
     bootbox.confirm({
-        message: "Realmente deseja excluir o usuário?",
+        message: "Realmente deseja excluir o cliente?",
         buttons: {
             confirm: {
                 label: 'Sim',
@@ -105,17 +114,21 @@ $(document).on('click', '.btn-alterar', function () {
 })
 .on('click', '#btn_confirmar', function () {
     var btn = $(this),
-         url = url_editar_usuario;
+         url = url_editar_cliente;
     param = {
         Id: $('#id_cadastro').val(),
-        Nome: $('#txt_nome').val(),
-        Email: $('#txt_email').val(),
-        Login: $('#txt_login').val(),
-        Senha: $('#txt_senha').val(),
-        IdPerfil: $('#ddl_perfil').val()
+        Nome: $('#txtNome').val(),
+        Email: $('#txtEmail').val(),
+        CPF: $('#txtCPF').val(),
+        Telefone: $('#txtTelefone').val(),
+        CEP: $('#txtCEP').val(),
+        Estado: $('#txtEstado').val(),
+        Cidade: $('#txtCidade').val(),
+        Bairro: $('#txtBairro').val(),
+        Endereco: $('#txtEndereco').val()
     };
     if (param.Nome === "") {
-        $('#txt_nome').focus();
+        $('#txtNome').focus();
         swal({
             type: 'error',
             position: 'top',
@@ -123,7 +136,7 @@ $(document).on('click', '.btn-alterar', function () {
             text: 'Campo nome é obrigatório',
         })
     } else if (param.Email === "") {
-        $('#txt_email').focus();
+        $('#txtEmail').focus();
         swal({
             type: 'error',
             position: 'top',
@@ -131,29 +144,37 @@ $(document).on('click', '.btn-alterar', function () {
             text: 'Campo email é obrigatório',
         })
     } else if (!ValidarEmail(param.Email)) {
-        $('#txt_email').focus();
+        $('#txtEmail').focus();
         swal({
             type: 'info',
             position: 'top',
             title: 'Aviso',
             text: 'E-mail informado é invalido',
         })
-    } else if (param.Login === "") {
-        $('#txt_login').focus();
+    } else if (param.CPF === "") {
+        $('#txtCPF').focus();
         swal({
             type: 'error',
             position: 'top',
             title: 'Aviso',
-            text: 'Campo login é obrigatório',
+            text: 'Campo cpf é obrigatório',
         })
     }
-    else if (param.Senha === "") {
-        $('#txt_senha').focus();
+    else if (param.Telefone === "") {
+        $('#txtTelefone').focus();
         swal({
             type: 'error',
             position: 'top',
             title: 'Aviso',
-            text: 'Campo senha é obrigatório',
+            text: 'Campo telefone é obrigatório',
+        })
+    } else if (param.CEP === "") {
+        $('#txtCEP').focus();
+        swal({
+            type: 'error',
+            position: 'top',
+            title: 'Aviso',
+            text: 'Campo cep é obrigatório',
         })
     } else {
         $.post(url, add_anti_forgery_token(param), function (response) {
@@ -170,9 +191,14 @@ $(document).on('click', '.btn-alterar', function () {
                         //.eq(0).html(param.Id).end()
                         .eq(0).html(param.Nome).end()
                         .eq(1).html(param.Email).end()
-                        .eq(2).html(param.Login).end()
-                    //.eq(3).html(param.IdPerfil).end();
-                    //.eq(3).html(param.Senha).end()
+                        .eq(2).html(param.CPF).end()
+                        .eq(3).html(param.Telefone).end()
+                        //.eq(5).html(param.CEP).end()
+                        .eq(4).html(param.Estado).end()
+                        //.eq(7).html(param.Cidade).end()
+                        //.eq(8).html(param.Bairro).end()
+                        //.eq(9).html(param.Endereco).end()
+                   
                 }
                 $('#modal_cadastro').parents('.bootbox').modal('hide');
                 swal({
@@ -236,14 +262,41 @@ $(document).ready(function () {
             null,
             null,
             null,
-            //null,
+            null,
+            null,
+            null,
+            null,
+            null,
             { "bSortable": false }
         ]
     });
     tabela.fnSetColumnVis(0, false);
-    tabela.fnSetColumnVis(4, false);
+    tabela.fnSetColumnVis(5, false);
+    tabela.fnSetColumnVis(7, false);
+    tabela.fnSetColumnVis(8, false);
+    tabela.fnSetColumnVis(9, false);
 });
 
+
+// Preencher campos através do CEP
+$(function ($) {
+    $("#txtCEP").change(function () {
+        var cep_code = $(this).val();
+        if (cep_code.length <= 0) return;
+        $.get("http://apps.widenet.com.br/busca-cep/api/cep.json", { code: cep_code },
+        function (result) {
+            if (result.status != 1) {
+                alert(result.message || "Houve um erro desconhecido");
+                return;
+            }
+            $("input#txtCEP").val(result.code);
+            $("input#txtEstado").val(result.state);
+            $("input#txtCidade").val(result.city);
+            $("input#txtBairro").val(result.district);
+            $("input#txtEndereco").val(result.address);
+        });
+    });
+});
 
 
 // Validar e-mail

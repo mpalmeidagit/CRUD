@@ -20,7 +20,7 @@ $(document).on('click', '#btn_incluir', function () {
          url = url_cadastrar_perfil,
         param = {
             Id: $('#id_cadastro').val(),
-            Nome: $('#txt_nome').val()
+            Nome: $('#txt_nome').val()            
         };
     if (param.Nome === "") {
         $('#txt_nome').focus();
@@ -61,6 +61,7 @@ $(document).on('click', '#btn_incluir', function () {
                 $('#msg_erro').hide();
             }
             else if (response.Resultado) {
+                $('#txt_nome').focus();
                 swal({
                     position: 'top',
                     type: 'error',

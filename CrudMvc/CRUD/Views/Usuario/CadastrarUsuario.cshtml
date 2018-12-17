@@ -6,7 +6,7 @@
 }
 
 <div class="container home conteudo_painel">
-  
+
     <div class="panel panel-primary tela_cadastro_default">
 
         <div class="panel-heading">
@@ -38,15 +38,13 @@
             </div>
             <div class="form-group col-md-4">
                 @Html.Label("txt_perfil", "Perfil", new { @class = "control-label" })
-                @Html.DropDownList("ddl_perfil", new SelectList(ViewBag.ListarPerfil,"Id","Nome"), new { @class = "form-control" })
-            </div>
-            <div class="col-md-3">
-                <a id="btn_incluir" role="button" class="btn btn-success btn-block"><span class="glyphicon glyphicon-ok-sign"></span> Incluir Novo Usuário</a>
-
-            </div>
-            <div class="col-md-3">
-                <a id="btn_cancelar" role="button" class="btn btn-danger btn-block"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</a>
-
+                @Html.DropDownList("ddl_perfil", new SelectList(ViewBag.ListarPerfil, "Id", "Nome"), new { @class = "form-control" })
+            </div>          
+        </div>
+        <div class="panel-footer">
+            <div class="col-md-12">
+                <a id="btn_incluir" role="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Incluir Novo Usuário</a>
+                <a id="btn_cancelar" role="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</a>
             </div>
         </div>
 

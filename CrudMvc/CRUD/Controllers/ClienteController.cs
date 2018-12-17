@@ -8,62 +8,113 @@ using System.Web.Mvc;
 
 namespace CRUD.Controllers
 {
-    
+
+    [Authorize(Roles = "Administrador,Gerente,Operador")]
     public class ClienteController : Controller
     {
-        [Authorize]
+
         public ActionResult CadastrarCliente()
         {
-            return View();
+            return View(ClienteModel.RecuperarCliente());
+        }
+
+        public ActionResult ConsultarCliente()
+        {
+            return View(ClienteModel.RecuperarCliente());
         }
 
         [HttpPost]
-        public ActionResult CadastrarCliente(String campoNome, String campoEmail, String campoCPF, String campoTelefone, String campoCEP, String campoEstado, String campoCidade, String campoBairro, String campoEndereco)
+        [ValidateAntiForgeryToken]
+        public ActionResult RecuperarPorId(int id)
         {
+            return Json(ClienteModel.RecuperarPeloId(id));
+        }
 
-
-            ClienteModel objCliente = new ClienteModel()
-            {
-                Nome = campoNome,
-                Email = campoEmail,
-                CPF = campoCPF,
-                Telefone = campoTelefone,
-                CEP = campoCEP,
-                Estado = campoEstado,
-                Cidade = campoCidade,
-                Bairro = campoBairro,
-                Endereco = campoEndereco
-
-            };
-
-
-            var resultado = "Sucesso";
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult SalvarCliente(ClienteModel model)
+        {
+            var resultado = "SUCESSO";
             var mensagens = new List<string>();
             var idSalvo = string.Empty;
+            var retorno = string.Empty;
+
             if (!ModelState.IsValid)
             {
-                resultado = "Aviso";
+                resultado = "AVISO";
                 mensagens = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
             }
             else
             {
                 try
                 {
-                    //var id = objCliente.getInstancia().Salvar();
+                    var id = model.SalvarCliente();
+                    if (id == true)
+                    {
+                        idSalvo = id.ToString();
+                    }
+                    else
+                    {
+                        resultado = "ERRO";
+                    }
                 }
                 catch (Exception ex)
                 {
-                    resultado = "Erro";
+                    //resultado = "ERRO";
+                    retorno = ex.Message;
+                    resultado = retorno;
                 }
             }
             return Json(new { Resultado = resultado, Mensagens = mensagens, IdSalvo = idSalvo });
         }
 
-        public ActionResult ConsultarCliente()
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult EditarCliente(ClienteModel model)
         {
-            return View();
+            var resultado = "SUCESSO";
+            var mensagens = new List<string>();
+            var idSalvo = string.Empty;
+            var retorno = string.Empty;
+
+            if (!ModelState.IsValid)
+            {
+                resultado = "AVISO";
+                mensagens = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+            }
+            else
+            {
+                try
+                {
+                    var id = model.EditarCliente();
+                    if (id > 0)
+                    {
+                        idSalvo = id.ToString();
+                    }
+                    else
+                    {
+                        resultado = "ERRO";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //resultado = "ERRO";
+                    retorno = ex.Message;
+                    resultado = retorno;
+                }
+            }
+            return Json(new { Resultado = resultado, Mensagens = mensagens, IdSalvo = idSalvo });
         }
 
-        
+
+        [HttpPost]
+        [Authorize(Roles = "Administrador,Gerente")]
+        [ValidateAntiForgeryToken]
+        public JsonResult ExcluirCliente(int id)
+        {
+            return Json(ClienteModel.ExcluirCliente(id));
+        }
+
     }
 }

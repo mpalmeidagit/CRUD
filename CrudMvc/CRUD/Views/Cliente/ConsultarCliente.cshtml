@@ -1,7 +1,160 @@
-﻿
+﻿@model List<CRUD.Models.ClienteModel>
 @{
-    ViewBag.Title = "ConsultarCliente";
+    ViewBag.Title = "Consultar Cliente";
 }
 
-<h2>ConsultarCliente</h2>
+<div class="container home conteudo_painel">
+    <div class="panel panel-primary titulo_padrao">
+        <div class="panel-heading">
+            @ViewBag.Title
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="tbl_dados" class="table table-bordered">
+                    <thead>
+                        <tr class="active">
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>CPF</th>
+                            <th>Telefone</th>
+                            <th>CEP</th>
+                            <th>Estado</th>
+                            <th>Cidade</th>
+                            <th>Bairro</th>
+                            <th>Endereço</th>
+                            <th class="text-center">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr data-id="@item.Id">
+                                <td>@item.Id</td>
+                                <td>@item.Nome</td>
+                                <td>@item.Email</td>
+                                <td>@item.CPF</td>
+                                <td>@item.Telefone</td>
+                                <td>@item.CEP</td>
+                                <td>@item.Estado</td>
+                                <td>@item.Cidade</td>
+                                <td>@item.Cidade</td>
+                                <td>@item.Endereco</td>
+                                <td class="text-center">
+                                    <a class="btn btn-primary btn-alterar" role="button"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                    <a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i> </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
+@Html.Hidden("id_cadastro");
+<div id="modal_cadastro" class="form-horizontal invisivel" role="dialog">
+
+    <div id="msg_mensagem_aviso" class="text-danger invisivel"></div>
+
+    <fieldset>
+        @Html.AntiForgeryToken()
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("txtNome", "Nome", new { @class = "control-label" })
+                @Html.TextBox("txtNome", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("txtEmail", "Email", new { @class = "control-label" })
+                @Html.TextBox("txtEmail", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.Label("txtCPF", "CPF", new { @class = "control-label" })
+                @Html.TextBox("txtCPF", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.Label("txtTelefone", "Telefone", new { @class = "control-label" })
+                @Html.TextBox("txtTelefone", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.Label("txtCEP", "CEP", new { @class = "control-label" })
+                @Html.TextBox("txtCEP", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.Label("txtEstado", "Estado", new { @class = "control-label" })
+                @Html.TextBox("txtEstado", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.Label("txtCidade", "Cidade", new { @class = "control-label" })
+                @Html.TextBox("txtCidade", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.Label("txtBairro", "Bairro", new { @class = "control-label" })
+                @Html.TextBox("txtBairro", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.Label("txtEndereco", "Endereco", new { @class = "control-label" })
+                @Html.TextBox("txtEndereco", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+    </fieldset>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="modal-footer">
+                    <a id="btn_sair" class="btn btn-default" role="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Sair</a>
+                    <a id="btn_confirmar" class="btn btn-primary" role="button"><i class="glyphicon glyphicon-ok"></i> Salvar</a>
+                </div>
+                <div id="msg_aviso" class="alert alert-danger invisivel">Falta preencher campos acima.</div>
+                <div id="msg_erro" class="alert alert-danger invisivel">Ops! ocorreu algum erro!</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        var tituloPagina = '@ViewBag.Title';
+        var url_recuperar_cliente = '@Url.Action("RecuperarPorId", "Cliente")';
+        var url_remover_cliente = '@Url.Action("ExcluirCliente", "Cliente")';
+        var url_editar_cliente = '@Url.Action("EditarCliente", "Cliente")';
+
+
+        $(document).ready(function () {
+            $('#txtCPF').mask('000.000.000-00');
+            $('#txtTelefone').mask('(00) 00000-0000');
+            $('#txtCEP').mask('00000-000');
+        });
+
+    </script>
+    <script src="~/Scripts/plugins/jquery-mask/jquery.mask.min.js"></script>
+    <script src="~/Scripts/Cadastro/Cliente/editar.js"></script>
+
+}

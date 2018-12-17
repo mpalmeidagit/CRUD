@@ -117,3 +117,4 @@ C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\bin\Newtonsoft.Json.xml
 C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.csprojResolveAssemblyReference.cache
 C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.dll
 C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.pdb
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.csprojResolveAssemblyReference.cache

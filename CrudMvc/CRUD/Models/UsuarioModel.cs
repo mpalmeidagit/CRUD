@@ -168,7 +168,7 @@ namespace CRUD.Models
                 cmd.Parameters.AddWithValue("@prmEmail", SqlDbType.VarChar).Value = this.Email;
                 cmd.Parameters.AddWithValue("@prmLogin", SqlDbType.VarChar).Value = this.Login;
                 cmd.Parameters.AddWithValue("@prmSenha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(this.Senha);
-                //cmd.Parameters.AddWithValue("@prmIdPerfil", SqlDbType.Int).Value = this.IdPerfil;
+                cmd.Parameters.AddWithValue("@prmIdPerfil", SqlDbType.Int).Value = this.IdPerfil;
                 cmd.CommandType = CommandType.StoredProcedure;
                 conexao.Open();
 
