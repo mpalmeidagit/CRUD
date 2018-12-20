@@ -11,8 +11,7 @@ CREATE PROCEDURE [dbo].[STP_REMOVER_PERFIL](
 AS
 BEGIN
 
-	DELETE FROM 
-		tab_perfil 
-	WHERE id = @prmId
+	
+	UPDATE tab_perfil SET ativo = 0	WHERE id = @prmId
 
 END
