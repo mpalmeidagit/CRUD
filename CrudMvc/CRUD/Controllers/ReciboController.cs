@@ -7,30 +7,34 @@ using System.Web.Mvc;
 
 namespace CRUD.Controllers
 {
-    [Authorize(Roles = "Administrador,Gerente,Operador")]
-    public class ServicoController : Controller
+    public class ReciboController : Controller
     {
-        
-        public ActionResult CadastrarServico()
+       
+        public ActionResult CadastrarRecibo()
         {
-            return View(ServicoModel.RecuperarServico());
+            ViewBag.ListarCliente = ClienteModel.RecuperarCliente();
+            ViewBag.ListarServico = ServicoModel.RecuperarServico();
+           
+            return View();
         }
 
-        public ActionResult ConsultarServico()
+        public ActionResult ConsultarRecibo()
         {
-            return View(ServicoModel.RecuperarServico());
+            ViewBag.ListarCliente = ClienteModel.RecuperarCliente();
+            ViewBag.ListarServico = ServicoModel.RecuperarServico();
+            return View(ReciboModal.RecuperarRecibo());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RecuperarPorId(int id)
+        public ActionResult Atualizar()
         {
-            return Json(ServicoModel.RecuperarPeloId(id));
+            return Json(ReciboModal.RecuperarRecibo());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult SalvarServico(ServicoModel model)
+        public JsonResult SalvarRecibo(ReciboModal model)
         {
             var resultado = "SUCESSO";
             var mensagens = new List<string>();
@@ -46,7 +50,7 @@ namespace CRUD.Controllers
             {
                 try
                 {
-                    var id = model.SalvarServico();
+                    var id = model.SalvarRecibo();
                     if (id == true)
                     {
                         idSalvo = id.ToString();
@@ -58,18 +62,25 @@ namespace CRUD.Controllers
                 }
                 catch (Exception ex)
                 {
+                    //resultado = "ERRO";
                     retorno = ex.Message;
                     resultado = retorno;
                 }
             }
+            return Json(new { Resultado = resultado, Mensagens = mensagens, IdSalvo = idSalvo });
+        }
 
-            return Json(new { Resultado=resultado, Mensagens=mensagens, IdSalvo=idSalvo});
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RecuperarPorId(int id)
+        {
+            return Json(ReciboModal.RecuperarPeloId(id));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult EditarServico(ServicoModel model)
+        public JsonResult EditarRecibo(ReciboModal model)
         {
             var resultado = "SUCESSO";
             var mensagens = new List<string>();
@@ -85,14 +96,20 @@ namespace CRUD.Controllers
             {
                 try
                 {
-                    var id = model.EditarServico();
+                  
+                    var id = model.EditarRecibo();
                     if (id > 0)
                     {
                         idSalvo = id.ToString();
                     }
+                    else
+                    {
+                        resultado = "ERRO";
+                    }
                 }
                 catch (Exception ex)
                 {
+                    //resultado = "ERRO";
                     retorno = ex.Message;
                     resultado = retorno;
                 }
@@ -100,12 +117,13 @@ namespace CRUD.Controllers
             return Json(new { Resultado = resultado, Mensagens = mensagens, IdSalvo = idSalvo });
         }
 
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrador,Gerente")]
-        public JsonResult ExcluirServico(int id)
+        [ValidateAntiForgeryToken]
+        public JsonResult ExcluirRecibo(int id)
         {
-            return Json(ServicoModel.ExcluirServico(id));
+            return Json(ReciboModal.ExcluirRecibo(id));
         }
 
     }

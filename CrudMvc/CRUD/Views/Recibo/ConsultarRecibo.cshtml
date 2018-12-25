@@ -1,0 +1,109 @@
+﻿@model List<CRUD.Models.ReciboModal>
+@{
+    ViewBag.Title = "Consultar Recibo";
+}
+
+<div class="container home conteudo_painel">
+    <div class="panel panel-primary titulo_padrao">
+        <div class="panel-heading">
+            @ViewBag.Title
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="tbl_dados" class="table table-bordered">
+                    <thead>
+                        <tr class="active">
+                            <th>ID</th>
+                            <th>Data</th>
+                            <th>Serviço</th>
+                            <th>R$ Valor</th>
+                            <th>Cliente</th>
+                            <th>Telefone</th>
+                            <th class="text-center">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr data-id="@item.Id">
+                                <td>@item.Id</td>
+                                <td>@item.Data.ToString("dd/MM/yyyy")</td>
+                                <td>@item.ServicoModal.Descricao</td>
+                                <td>@item.ServicoModal.Valor</td>
+                                <td>@item.ClienteModel.Nome</td>
+                                <td>@item.ClienteModel.Telefone</td>                               
+                                <td class="text-center">
+                                    <a class="btn btn-primary btn-alterar" role="button"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                    <a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i> </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Hidden("id_cadastro");
+<div id="modal_cadastro" class="form-horizontal invisivel" role="dialog">
+
+    <div id="msg_mensagem_aviso" class="text-danger invisivel"></div>
+
+    <fieldset>
+        @Html.AntiForgeryToken()
+        <div class="form-group col-md-12">
+            @Html.Label("txt_data", "Data", new { @class = "control-label" })
+            @Html.TextBox("txt_data", null, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-12">
+            @Html.Label("txt_servico", "Serviço", new { @class = "control-label" })
+            @Html.DropDownList("ddl_servico", new SelectList(ViewBag.ListarServico, "Id", "descricao"), new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-12">
+            @Html.Label("txt_cliente", "Cliente", new { @class = "control-label" })
+            @Html.DropDownList("ddl_cliente", new SelectList(ViewBag.ListarCliente, "Id", "Nome"), new { @class = "form-control" })
+        </div>
+
+    </fieldset>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="modal-footer">
+                    <a id="btn_sair" class="btn btn-default" role="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Sair</a>
+                    <a id="btn_confirmar" class="btn btn-primary" role="button"><i class="glyphicon glyphicon-ok"></i> Salvar</a>
+                </div>
+                <div id="msg_aviso" class="alert alert-danger invisivel">Falta preencher campos acima.</div>
+                <div id="msg_erro" class="alert alert-danger invisivel">Ops! ocorreu algum erro!</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        var tituloPagina = '@ViewBag.Title';
+        var url_recuperar_recibo = '@Url.Action("RecuperarPorId", "Recibo")';
+        var url_editar_recibo = '@Url.Action("EditarRecibo", "Recibo")';
+        var url_remover_recibo = '@Url.Action("ExcluirRecibo", "Recibo")';
+     
+
+        $(document).ready(function () {
+            $('#txt_data').mask("00/00/0000", { reverse: true });
+        });
+
+    </script>
+    <script src="~/Scripts/plugins/jquery-mask/jquery.mask.min.js"></script>
+    <script src="~/Scripts/plugins/moment/moment.min.js"></script>
+    <script src="~/Scripts/Cadastro/Recibo/editar.js"></script>
+
+}

@@ -124,6 +124,7 @@
     <Compile Include="Controllers\ContaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
+    <Compile Include="Controllers\ReciboController.cs" />
     <Compile Include="Controllers\ServicoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
@@ -134,6 +135,7 @@
     <Compile Include="Models\Conexao.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\PerfilModel.cs" />
+    <Compile Include="Models\ReciboModal.cs" />
     <Compile Include="Models\ServicoModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -161,6 +163,10 @@
     <Content Include="Scripts\Cadastro\Cliente\editar.js" />
     <Content Include="Scripts\Cadastro\Perfil\cadastro.js" />
     <Content Include="Scripts\Cadastro\Perfil\editar.js" />
+    <Content Include="Scripts\Cadastro\Recibo\cadastro.js" />
+    <Content Include="Scripts\Cadastro\Recibo\editar.js" />
+    <Content Include="Scripts\Cadastro\Servico\cadastro.js" />
+    <Content Include="Scripts\Cadastro\Servico\editar.js" />
     <Content Include="Scripts\Cadastro\Usuario\cadastro.js" />
     <Content Include="Scripts\Cadastro\Usuario\editar.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -175,6 +181,7 @@
     <Content Include="Scripts\plugins\datatables\jquery.dataTables.js" />
     <Content Include="Scripts\plugins\jquery-mask\jquery.mask.js" />
     <Content Include="Scripts\plugins\jquery-mask\jquery.mask.min.js" />
+    <Content Include="Scripts\plugins\moment\moment.min.js" />
     <Content Include="Scripts\plugins\sweetalert2\sweetalert2.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -201,10 +208,13 @@
     <Content Include="Views\Usuario\ConsultarUsuario.cshtml" />
     <Content Include="Views\Perfil\ConsultarPerfil.cshtml" />
     <Content Include="Views\Perfil\CadastrarPerfil.cshtml" />
+    <Content Include="Views\Servico\CadastrarServico.cshtml" />
+    <Content Include="Views\Servico\ConsultarServico.cshtml" />
+    <Content Include="Views\Recibo\CadastrarRecibo.cshtml" />
+    <Content Include="Views\Recibo\ConsultarRecibo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Servico\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

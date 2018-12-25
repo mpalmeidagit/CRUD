@@ -1,72 +1,54 @@
-﻿
-function add_anti_forgery_token(data) {
+﻿function add_anti_forgery_token(data) {
     data.__RequestVerificationToken = $('[name=__RequestVerificationToken]').val();
     return data;
 }
 
 function abrir_form(dados) {
     $('#id_cadastro').val(dados.Id);
-    $('#txtNome').val(dados.Nome);
-    $('#txtEmail').val(dados.Email);
-    $('#txtCPF').val(dados.CPF);
-    $('#txtTelefone').val(dados.Telefone);
-    $('#txtCEP').val(dados.CEP);
-    $('#txtEstado').val(dados.Estado);
-    $('#txtCidade').val(dados.Cidade);
-    $('#txtBairro').val(dados.Bairro);
-    $('#txtEndereco').val(dados.Endereco);
-
+    $('#txtDescricao').val(dados.Descricao);
+    $('#txtValor').val(dados.Valor);
 
     var modal_cadastro = $('#modal_cadastro');
 
-    $('#msg_mensagem_aviso').empty();
-    $('#msg_aviso').hide();
-    $('#msg_mensagem_aviso').hide();
+    $('#msg_aviso').empty();
+    $('#msg_email').hide();
     $('#msg_erro').hide();
-
+    $('#msg_mensagem_aviso').hide();
+    $('#msg_mensagem_aviso').empty();
 
     bootbox.dialog({
         title: tituloPagina,
         message: modal_cadastro
-    })
-    .on('shown.bs.modal', function () {
+    }).on('shown.bs.modal', function () {
         modal_cadastro.show(0, function () {
-            $('#txt_nome').focus();
+            $('#txtDescricao').focus();
         });
-    })
-    .on('hidden.bs.modal', function () {
+    }).on('hidden.bs.modal', function () {
         modal_cadastro.hide().appendTo('body');
     });
-}
 
+}
 
 function criar_linha_grid(dados) {
     var retorno =
         '<tr data-id=' + dados.Id + '>' +
-        //'<td>' + dados.Id + '</td>' +
-        '<td>' + dados.Nome + '</td>' +
-        '<td>' + dados.Email + '</td>' +
-        '<td>' + dados.CPF + '</td>' +
-        '<td>' + dados.Telefone + '</td>' +
-       // '<td>' + dados.CEP + '</td>' +
-        '<td>' + dados.Estado + '</td>' +
-        //'<td>' + dados.Cidade + '</td>' +
-        //'<td>' + dados.Bairro + '</td>' +
-        //'<td>' + dados.Endereco + '</td>' +
+        '<td>' + dados.Id + '</td>' +
+        '<td>' + dados.Descricao + '</td>' +
+        '<td>' + dados.Valor + '</td>' +
         '<td class="text-center">' +
         '<a class="btn btn-primary btn-alterar" role="button" style="margin-right: 3px"><i class="glyphicon glyphicon-pencil"></i> </a>' +
         '<a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i></a>' +
         '</td>' +
         '</tr>';
-    return retorno;
 
+    return retorno;
 }
 
 $(document).on('click', '.btn-alterar', function () {
     $('#txt_senha').attr('readonly', true);
     var btn = $(this),
          id = btn.closest('tr').attr('data-id'),
-         url = url_recuperar_cliente,
+         url = url_recuperar_servico,
          param = { 'id': id };
     $.post(url, add_anti_forgery_token(param), function (response) {
         if (response) {
@@ -74,17 +56,15 @@ $(document).on('click', '.btn-alterar', function () {
             //set_focus_form();
         }
     });
-})
-
-.on('click', '.btn-excluir', function () {
+}).on('click', '.btn-excluir', function () {
     var btn = $(this),
         tr = btn.closest('tr'),
         id = tr.attr('data-id'),
-        url = url_remover_cliente,
+        url = url_remover_servico,
         param = { 'id': id };
 
     bootbox.confirm({
-        message: "Realmente deseja excluir o cliente?",
+        message: "Realmente deseja excluir o serviço?",
         buttons: {
             confirm: {
                 label: 'Sim',
@@ -114,67 +94,27 @@ $(document).on('click', '.btn-alterar', function () {
 })
 .on('click', '#btn_confirmar', function () {
     var btn = $(this),
-         url = url_editar_cliente;
+         url = url_editar_servico;
     param = {
         Id: $('#id_cadastro').val(),
-        Nome: $('#txtNome').val(),
-        Email: $('#txtEmail').val(),
-        CPF: $('#txtCPF').val(),
-        Telefone: $('#txtTelefone').val(),
-        CEP: $('#txtCEP').val(),
-        Estado: $('#txtEstado').val(),
-        Cidade: $('#txtCidade').val(),
-        Bairro: $('#txtBairro').val(),
-        Endereco: $('#txtEndereco').val()
+        Descricao: $('#txtDescricao').val(),
+        Valor: $('#txtValor').val()
     };
-    if (param.Nome === "") {
-        $('#txtNome').focus();
+    if (param.Descricao === "") {
+        $('#txtDescricao').focus();
         swal({
             type: 'error',
             position: 'top',
             title: 'Aviso',
-            text: 'Campo nome é obrigatório',
+            text: 'Campo descrição é obrigatório',
         })
-    } else if (param.Email === "") {
-        $('#txtEmail').focus();
+    } else if (param.Valor === "") {
+        $('#txtValor').focus();
         swal({
             type: 'error',
             position: 'top',
             title: 'Aviso',
             text: 'Campo email é obrigatório',
-        })
-    } else if (!ValidarEmail(param.Email)) {
-        $('#txtEmail').focus();
-        swal({
-            type: 'info',
-            position: 'top',
-            title: 'Aviso',
-            text: 'E-mail informado é invalido',
-        })
-    } else if (param.CPF === "") {
-        $('#txtCPF').focus();
-        swal({
-            type: 'error',
-            position: 'top',
-            title: 'Aviso',
-            text: 'Campo cpf é obrigatório',
-        })
-    }
-    else if (param.Telefone === "") {
-        $('#txtTelefone').focus();
-        swal({
-            type: 'error',
-            position: 'top',
-            title: 'Aviso',
-            text: 'Campo telefone é obrigatório',
-        })
-    } else if (param.CEP === "") {
-        $('#txtCEP').focus();
-        swal({
-            type: 'error',
-            position: 'top',
-            title: 'Aviso',
-            text: 'Campo cep é obrigatório',
         })
     } else {
         $.post(url, add_anti_forgery_token(param), function (response) {
@@ -185,7 +125,13 @@ $(document).on('click', '.btn-alterar', function () {
                         linha = criar_linha_grid(param);
                     table.append(linha);
                 }
-
+                else {
+                    var linha = $('#tbl_dados').find('tr[data-id=' + param.Id + ']').find('td');
+                    linha
+                        //.eq(0).html(param.Id).end()
+                        .eq(0).html(param.Descricao).end()
+                        .eq(1).html(param.Valor).end()
+                }
                 $('#modal_cadastro').parents('.bootbox').modal('hide');
                 swal({
                     position: 'top',
@@ -197,10 +143,10 @@ $(document).on('click', '.btn-alterar', function () {
             }
             else if (response.Resultado) {
                 swal({
-                    position: 'top',
                     type: 'error',
-                    text: response.Resultado,
+                    position: 'top',
                     title: 'Aviso',
+                    text: response.Resultado,
                 });
             }
             else if (response.Resultado == "ERRO") {
@@ -216,10 +162,10 @@ $(document).on('click', '.btn-alterar', function () {
             }
             else if (response.Resultado) {
                 swal({
-                    position: 'top',
                     type: 'error',
-                    text: response.Resultado,
+                    position: 'top',                   
                     title: 'Aviso',
+                    text: response.Resultado,                    
                 });
             }
         });
@@ -235,8 +181,6 @@ function formatar_mensagem_aviso(mensagens) {
     return '<ul>' + retorno + '</ul>';
 }
 
-
-
 // Inicia o datatable
 $(document).ready(function () {
     tabela = $("#tbl_dados").DataTable({
@@ -246,47 +190,9 @@ $(document).ready(function () {
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
             { "bSortable": false }
         ]
     });
     tabela.fnSetColumnVis(0, false);
-    tabela.fnSetColumnVis(5, false);
-    tabela.fnSetColumnVis(7, false);
-    tabela.fnSetColumnVis(8, false);
-    tabela.fnSetColumnVis(9, false);
 });
 
-
-// Preencher campos através do CEP
-$(function ($) {
-    $("#txtCEP").change(function () {
-        var cep_code = $(this).val();
-        if (cep_code.length <= 0) return;
-        $.get("http://apps.widenet.com.br/busca-cep/api/cep.json", { code: cep_code },
-        function (result) {
-            if (result.status != 1) {
-                alert(result.message || "Houve um erro desconhecido");
-                return;
-            }
-            $("input#txtCEP").val(result.code);
-            $("input#txtEstado").val(result.state);
-            $("input#txtCidade").val(result.city);
-            $("input#txtBairro").val(result.district);
-            $("input#txtEndereco").val(result.address);
-        });
-    });
-});
-
-
-// Validar e-mail
-function ValidarEmail($email) {
-    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    return emailReg.test($email);
-}

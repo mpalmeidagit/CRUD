@@ -17,6 +17,7 @@ namespace CRUD.Models
         public String Descricao { get; set; }
 
         [Required(ErrorMessage = "Campo valor é obrigatório.")]
+        [DisplayFormat(DataFormatString ="{0:N}",ApplyFormatInEditMode =true)]
         public Decimal Valor { get; set; }
 
         public static List<ServicoModel> RecuperarServico()

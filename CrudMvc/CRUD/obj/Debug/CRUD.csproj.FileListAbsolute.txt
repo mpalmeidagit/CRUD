@@ -77,6 +77,7 @@ C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\Antlr3.Runtime.pdb
 C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\bin\Newtonsoft.Json.xml
 C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.dll
 C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.pdb
+C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.csprojResolveAssemblyReference.cache
 C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\csc.exe
 C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -114,7 +115,6 @@ C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.WebPages.Deployment.xml
 C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\bin\System.Web.WebPages.Razor.xml
 C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\bin\Antlr3.Runtime.pdb
 C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\bin\Newtonsoft.Json.xml
-C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.csprojResolveAssemblyReference.cache
 C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.dll
 C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.pdb
-C:\Users\mpalmeida\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.csprojResolveAssemblyReference.cache
+C:\Users\almei\Projetos\CRUD\CrudMvc\CRUD\obj\Debug\CRUD.csprojResolveAssemblyReference.cache

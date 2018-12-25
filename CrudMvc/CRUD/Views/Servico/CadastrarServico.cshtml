@@ -1,0 +1,54 @@
+﻿
+@model List<CRUD.Models.ServicoModel>
+
+@{
+    ViewBag.Title = "Cadastrar Servico";
+}
+
+<div class="container home conteudo_painel">
+    <div class="panel panel-primary tela_cadastro_default">
+        <div class="panel-heading">
+            @ViewBag.Title
+        </div>
+
+        <div class="panel-body form-inline">
+            @Html.AntiForgeryToken()
+            <div class="form-group col-md-6">
+                @Html.Label("txtDescricao", "Descrição", new { @class = "control-label" })
+                @Html.TextBox("txtDescricao", null, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-6">
+                @Html.Label("txtValor", "R$ Valor", new { @class = "control-label" })
+                @Html.TextBox("txtValor", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="col-md-12">
+                <a id="btn_incluir" class="btn btn-success" role="button"><i class="glyphicon glyphicon-ok-sign"></i> Incluir Novo Serviço</a>
+                <a id="btn_cancelar" class="btn btn-danger" role="button"><i class="glyphicon glyphicon-remove-sign"></i> Cancelar</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div id="msg_aviso" class="alert alert-danger invisivel">Por favor preencha os campos.</div>
+        <div id="msg_email" class="alert alert-danger invisivel">Já existe um serviço com esta descrição.</div>
+        <div id="msg_erro" class="alert alert-danger invisivel">Ops! ocorreu algum erro!</div>
+        <div id="msg_mensagem_aviso" class="text-danger invisivel"></div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        var url_cadastrar_servico = '@Url.Action("SalvarServico","Servico")';
+
+        $(document).ready(function () {
+            $('#txtValor').mask("###0,00", { reverse: true });
+        });
+
+    </script>
+    <script src="~/Scripts/plugins/jquery-mask/jquery.mask.min.js"></script>
+    <script src="~/Scripts/Cadastro/Servico/cadastro.js"></script>
+
+}

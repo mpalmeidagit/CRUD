@@ -1,0 +1,112 @@
+﻿
+@model List<CRUD.Models.ServicoModel>
+
+@{
+    ViewBag.Title = "Consultar Servico";
+}
+
+<style type="text/css">
+
+    #tbl_dados > thead > tr > th:nth-child(2) {
+        width: 20% !important;
+    }
+    #tbl_dados > thead > tr > th:nth-child(3) {
+        width: 20% !important;
+    }
+</style>
+
+<div class="container home conteudo_painel">
+    <div class="panel panel-primary titulo_padrao">
+        <div class="panel-heading">
+            @ViewBag.Title
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="tbl_dados" class="table table-bordered">
+                    <thead>
+                        <tr class="active">
+                            <th>ID</th>
+                            <th>Descrição</th>
+                            <th>R$ Valor</th>
+                            <th class="text-center">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr data-id="@item.Id">
+                                <td>@item.Id</td>
+                                <td>@item.Descricao</td>
+                                <td>@item.Valor</td>
+                                <td class="text-center">
+                                    <a class="btn btn-primary btn-alterar" role="button"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Hidden("id_cadastro");
+
+<div id="modal_cadastro" class="form-horizontal invisivel" role="dialog">
+
+    <div id="mag_mensagem_aviso" class="text-danger invisivel"></div>
+
+    <fieldset>
+
+        @Html.AntiForgeryToken()
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("txtDescricao", "Descrição", new { @class = "control-label" })
+                @Html.TextBox("txtDescricao", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("txtValor", "Valor", new { @class = "control-label" })
+                @Html.TextBox("txtValor", null, new { @class = "form-control" })
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="modal-footer">
+                    <a id="btn_sair" class="btn btn-default" role="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove-sign"></i> Sair</a>
+                    <a id="btn_confirmar" class="btn btn-primary" role="button"><i class="glyphicon glyphicon-ok-sign"></i> Salvar</a>
+                </div>
+                <div id="msg_aviso" class="alert alert-danger invisivel">Faltam preencher os campos</div>
+                <div id="msg_erro" class="alert alert-danger invisivel">Ops! ocorreu algum erro!</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        var tituloPagina = '@ViewBag.Title';
+        var url_recuperar_servico = '@Url.Action("RecuperarPorId","Servico")';
+        var url_remover_servico = '@Url.Action("ExcluirServico","Servico")';
+        var url_editar_servico = '@Url.Action("EditarServico","Servico")';
+
+
+        $(document).ready(function () {
+            $('#txtValor').mask("###0,00", { reverse: true });
+        });
+
+
+    </script>
+
+    <script src="~/Scripts/plugins/jquery-mask/jquery.mask.min.js"></script>
+    <script src="~/Scripts/Cadastro/Servico/editar.js"></script>
+
+}
